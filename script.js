@@ -58,7 +58,11 @@ const categoriesModel = {
     this.items = this.items.filter(category => category.id !== id)
   },
 
-  addItem(categoryId, item) {
+  // getProductById(categoryId, productId) {
+  //   const category = this.getItemById(categoryId)
+  // },
+
+  addProduct(categoryId, item) {
     const category = this.getCategoryById(categoryId)
     if (!category) return
 
@@ -66,7 +70,7 @@ const categoriesModel = {
     category.items.push(item)
   },
 
-  removeItemById(categoryId, itemId) {
+  removeProductById(categoryId, itemId) {
     const category = this.getCategoryById(categoryId)
     if (!category) return
 
@@ -86,13 +90,13 @@ console.log('--- getCategoryById ---')
 console.log(categoriesModel.getCategoryById(thirdId))
 
 console.log('--- addItem ---')
-categoriesModel.addItem(thirdId, { title: 'Белые розы' })
-categoriesModel.addItem(thirdId, { title: 'Желтые тюльпаны' })
+categoriesModel.addProduct(thirdId, { title: 'Белые розы' })
+categoriesModel.addProduct(thirdId, { title: 'Желтые тюльпаны' })
 console.log(categoriesModel.getCategoryById(thirdId))
 
 console.log('--- removeItemById ---')
 const firstItemId = categoriesModel.getCategoryById(thirdId).items[0].id
-categoriesModel.removeItemById(thirdId, firstItemId)
+categoriesModel.removeProductById(thirdId, firstItemId)
 console.log(categoriesModel.getCategoryById(thirdId))
 
 console.log('--- removeCategoryById ---')
