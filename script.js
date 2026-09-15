@@ -2,13 +2,11 @@ const randomId = () => +Math.trunc(Math.random() * 0xffffffff)
 
 console.log(randomId())
 
-const categories = [
-  // >>> category <<<
+let categories = [
   {
     id: 1,
     title: 'Смартфоны',
     items: [
-      // >>> item <<<
       { id: 11, title: 'iPhone 15' },
       { id: 12, title: 'Samsung Galaxy S15' },
       { id: 13, title: 'Huawei H15' },
@@ -40,12 +38,12 @@ const categories = [
   },
 ]
 
-function getCategoryById() {
-  // body
+function getCategoryById(id) {
+  return categories.find(category => category.id === id)
 }
 
-function removeCategoryById() {
-  // body
+function removeCategoryById(id) {
+  categories = categories.filter(category => category.id !== id)
 }
 
 function getItemByIdFromCategoryId(categoryId, itemId) {
@@ -54,70 +52,20 @@ function getItemByIdFromCategoryId(categoryId, itemId) {
 }
 
 function removeItemByIdFromCategoryId(categoryId, itemId) {
-  // body
+  const category = getCategoryById(categoryId)
+  category.items = category.items.filter(item => item.id !== itemId)
 }
 
-// const categoriesModel = {
-//   id: randomId(),
-//   title: '',
-//   items: [],
+console.log('--- getCategoryById ---')
+console.log(getCategoryById(2))
 
-//   getItemById(itemId) {
-//     return this.items.find(item => item.id === itemId)
-//   },
+console.log('--- getItemByIdFromCategoryId ---')
+console.log(getItemByIdFromCategoryId(1, 12))
 
-//   addCategories(category) {
-//     category.id = randomId()
-//     category.items = category.items || []
+console.log('--- removeCategoryById ---')
+removeCategoryById(2)
+console.log(categories)
 
-//     this.items.push(category)
-//   },
-
-//   removeCategoryById(id) {
-//     this.items = this.items.filter(category => category.id !== id)
-//   },
-
-//   // getProductById(categoryId, productId) {
-//   //   const category = this.getItemById(categoryId)
-//   // },
-
-//   addProduct(categoryId, item) {
-//     const category = this.getItemById(categoryId)
-//     if (!category) return
-
-//     item.id = randomId()
-//     category.items.push(item)
-//   },
-
-//   removeProductById(categoryId, itemId) {
-//     const category = this.getItemById(categoryId)
-//     if (!category) return
-
-//     category.items = category.items.filter(item => item.id !== itemId)
-//   },
-// }
-
-// console.log('--- addCategories ---')
-// categoriesModel.addCategories({ title: 'Смартфоны' })
-// categoriesModel.addCategories({ title: 'Ноутбуки' })
-// categoriesModel.addCategories({ title: 'Цветы' })
-// console.log(categoriesModel.items)
-
-// const thirdId = categoriesModel.items[2].id
-
-// console.log('--- getCategoryById ---')
-// console.log(categoriesModel.getItemById(thirdId))
-
-// console.log('--- addItem ---')
-// categoriesModel.addProduct(thirdId, { title: 'Белые розы' })
-// categoriesModel.addProduct(thirdId, { title: 'Желтые тюльпаны' })
-// console.log(categoriesModel.getItemById(thirdId))
-
-// console.log('--- removeItemById ---')
-// const firstItemId = categoriesModel.getItemById(thirdId) //.items[0].id
-// categoriesModel.removeProductById(thirdId, firstItemId)
-// console.log(categoriesModel.getItemById(thirdId))
-
-// console.log('--- removeCategoryById ---')
-// categoriesModel.removeCategoryById(categoriesModel.items[1].id)
-// console.log(categoriesModel.items)
+console.log('--- removeItemByIdFromCategoryId ---')
+removeItemByIdFromCategoryId(1, 12)
+console.log(getCategoryById(1))
