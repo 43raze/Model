@@ -1,6 +1,4 @@
-const randomId = () => +Math.trunc(Math.random() * 0xffffffff)
-
-console.log(randomId())
+const randomId = () => Math.trunc(Math.random() * 0xffffffff)
 
 let categories = [
   {
@@ -61,20 +59,19 @@ function editCategoryById(categoryId, newTitle) {
   category.title = newTitle
 }
 
-function removeCategoryById(id) {
-  categories = categories.filter(category => category.id !== id)
+function removeCategoryById(categoryId) {
+  categories = categories.filter(category => category.id !== categoryId)
 }
 
 //--- Items ---//
 
 function addItemToCategory(categoryId, title) {
   const category = getCategoryById(categoryId)
-  const newtItems = {
+  const newItem = {
     id: randomId(),
     title,
   }
-
-  category.items.push(newtItems)
+  category.items.push(newItem)
 }
 
 function getItemByIdFromCategoryId(categoryId, itemId) {
@@ -83,7 +80,7 @@ function getItemByIdFromCategoryId(categoryId, itemId) {
 }
 
 function editItemById(categoryId, itemId, newTitle) {
-  const item = getCategoryById(categoryId, itemId)
+  const item = getItemByIdFromCategoryId(categoryId, itemId)
   item.title = newTitle
 }
 
