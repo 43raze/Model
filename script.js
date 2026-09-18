@@ -38,15 +38,8 @@ let categories = [
     ],
   },
 ]
-//--- Category ---//
 
-function getCategoryById(categoryId) {
-  return categories.find(category => category.id === categoryId)
-}
-
-function removeCategoryById(id) {
-  categories = categories.filter(category => category.id !== id)
-}
+//--- Categories ---//
 
 function addCategory(title) {
   const newCategory = {
@@ -55,22 +48,24 @@ function addCategory(title) {
     items: [],
   }
   categories.push(newCategory)
+
   return newCategory
 }
 
-//--- Category ---//
+function getCategoryById(categoryId) {
+  return categories.find(category => category.id === categoryId)
+}
+
+function editCategoryById(categoryId, newTitle) {
+  const category = getCategoryById(categoryId)
+  category.title = newTitle
+}
+
+function removeCategoryById(id) {
+  categories = categories.filter(category => category.id !== id)
+}
 
 //--- Items ---//
-
-function getItemByIdFromCategoryId(categoryId, itemId) {
-  const category = getCategoryById(categoryId)
-  return category.items.find(item => item.id === itemId)
-}
-
-function removeItemByIdFromCategoryId(categoryId, itemId) {
-  const category = getCategoryById(categoryId)
-  category.items = category.items.filter(item => item.id !== itemId)
-}
 
 function addItemToCategory(categoryId, title) {
   const category = getCategoryById(categoryId)
@@ -82,24 +77,49 @@ function addItemToCategory(categoryId, title) {
   category.items.push(newtItems)
 }
 
-console.log('--- getCategoryById ---')
-console.log(getCategoryById(2))
+function getItemByIdFromCategoryId(categoryId, itemId) {
+  const category = getCategoryById(categoryId)
+  return category.items.find(item => item.id === itemId)
+}
 
-console.log('--- getItemByIdFromCategoryId ---')
-console.log(getItemByIdFromCategoryId(1, 12))
+function editItemById(categoryId, itemId, newTitle) {
+  const item = getCategoryById(categoryId, itemId)
+  item.title = newTitle
+}
 
-console.log('--- removeCategoryById ---')
-removeCategoryById(2)
-console.log(categories)
+function removeItemByIdFromCategoryId(categoryId, itemId) {
+  const category = getCategoryById(categoryId)
+  category.items = category.items.filter(item => item.id !== itemId)
+}
 
-console.log('--- removeItemByIdFromCategoryId ---')
-removeItemByIdFromCategoryId(1, 12)
-console.log(getCategoryById(1))
+//--- Tests ---//
 
 console.log('--- addCategory ---')
 addCategory('Наушники')
 console.log(categories)
 
+console.log('--- getCategoryById ---')
+console.log(getCategoryById(2))
+
+console.log('--- editCategoryById ---')
+editCategoryById(1, 'Телефоны')
+console.log(getCategoryById(1))
+
+console.log('--- removeCategoryById ---')
+removeCategoryById(2)
+console.log(categories)
+
 console.log('--- addItemToCategory ---')
 addItemToCategory(1, 'iPhone 17')
+console.log(getCategoryById(1))
+
+console.log('--- getItemByIdFromCategoryId ---')
+console.log(getItemByIdFromCategoryId(1, 12))
+
+console.log('--- editItemById ---')
+editItemById(1, 11, 'iPhone 16')
+console.log(getItemByIdFromCategoryId(1, 11))
+
+console.log('--- removeItemByIdFromCategoryId ---')
+removeItemByIdFromCategoryId(1, 12)
 console.log(getCategoryById(1))
