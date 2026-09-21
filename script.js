@@ -39,29 +39,36 @@ let categories = [
 
 //--- Validation ---//
 
-function isValid(value) {
-  if (typeof value !== 'string') {
-    return null
-  }
+// function validateTitle(value) {
+//   if (typeof value !== 'string') {
+//     return null
+//   }
 
-  const trimmed = value.trim()
-  const lower = trimmed.toLowerCase()
+//   const trimmed = value.trim()
+//   const lower = trimmed.toLowerCase()
 
-  if (lower.length < 3) {
-    return null
-  }
+//   if (lower.length < 3) {
+//     return null
+//   }
 
-  if (lower.length > 20) {
-    return null
-  }
+//   if (lower.length > 20) {
+//     return null
+//   }
 
-  return lower
+//   return lower
+// }
+
+function isValidateTitle(value) {
+  if (typeof value !== 'string') return null
+  const word = value.trim().toLowerCase()
+
+  return word.length >= 3 && word.length <= 20 ? word : null
 }
 
 //--- Categories ---//
 
 function addCategory(title) {
-  const validTitle = isValid(title)
+  const validTitle = isValidateTitle(title)
   if (!validTitle) return null
 
   const newCategory = {
@@ -80,7 +87,7 @@ function getCategoryById(categoryId) {
 
 function editCategoryById(categoryId, newTitle) {
   const category = getCategoryById(categoryId)
-  const validTitle = isValid(newTitle)
+  const validTitle = isValidateTitle(newTitle)
 
   if (!category || !validTitle) return null
   category.title = validTitle
@@ -96,7 +103,7 @@ function removeCategoryById(categoryId) {
 
 function addItemToCategory(categoryId, title) {
   const category = getCategoryById(categoryId)
-  const validTitle = isValid(title)
+  const validTitle = isValidateTitle(title)
 
   if (!category || !validTitle) return null
 
@@ -119,7 +126,7 @@ function getItemByIdFromCategoryId(categoryId, itemId) {
 
 function editItemById(categoryId, itemId, newTitle) {
   const item = getItemByIdFromCategoryId(categoryId, itemId)
-  const validTitle = isValid(newTitle)
+  const validTitle = isValidateTitle(newTitle)
 
   if (!item || !validTitle) return null
   item.title = validTitle
@@ -136,44 +143,44 @@ function removeItemByIdFromCategoryId(categoryId, itemId) {
 
 //--- Tests ---//
 
-console.log('--- addCategory ---')
-addCategory('Наушники')
-console.log(categories)
+// console.log('--- addCategory ---')
+// addCategory('Наушники')
+// console.log(categories)
 
-console.log('--- getCategoryById ---')
-console.log(getCategoryById(2))
+// console.log('--- getCategoryById ---')
+// console.log(getCategoryById(2))
 
-console.log('--- editCategoryById ---')
-editCategoryById(1, 'Телефоны')
-console.log(getCategoryById(1))
+// console.log('--- editCategoryById ---')
+// editCategoryById(1, 'Телефоны')
+// console.log(getCategoryById(1))
 
-console.log('--- removeCategoryById ---')
-removeCategoryById(2)
-console.log(categories)
+// console.log('--- removeCategoryById ---')
+// removeCategoryById(2)
+// console.log(categories)
 
-console.log('--- addItemToCategory ---')
-addItemToCategory(1, 'iPhone 17')
-console.log(getCategoryById(1))
+// console.log('--- addItemToCategory ---')
+// addItemToCategory(1, 'iPhone 17')
+// console.log(getCategoryById(1))
 
-console.log('--- getItemByIdFromCategoryId ---')
-console.log(getItemByIdFromCategoryId(1, 12))
+// console.log('--- getItemByIdFromCategoryId ---')
+// console.log(getItemByIdFromCategoryId(1, 12))
 
-console.log('--- editItemById ---')
-editItemById(1, 11, 'iPhone 16')
-console.log(getItemByIdFromCategoryId(1, 11))
+// console.log('--- editItemById ---')
+// editItemById(1, 11, 'iPhone 16')
+// console.log(getItemByIdFromCategoryId(1, 11))
 
-console.log('--- removeItemByIdFromCategoryId ---')
-removeItemByIdFromCategoryId(1, 12)
-console.log(getCategoryById(1))
+// console.log('--- removeItemByIdFromCategoryId ---')
+// removeItemByIdFromCategoryId(1, 12)
+// console.log(getCategoryById(1))
 
 //--- Validation tests ---//
 
-console.log('--- isValid ---')
-console.log(isValid('  Наушники  '))
-console.log(isValid('ab'))
-console.log(isValid('a'.repeat(21)))
-console.log(isValid('   '))
-console.log(isValid(42))
+console.log('--- validateTitle ---')
+console.log(isValidateTitle('  Наушники  '))
+console.log(isValidateTitle('ab'))
+console.log(isValidateTitle('a'.repeat(21)))
+console.log(isValidateTitle('   '))
+console.log(isValidateTitle(42))
 
 console.log('--- addCategory: результат ---')
 console.log(addCategory('Ноутбуки'))
