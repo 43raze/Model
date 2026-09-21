@@ -37,12 +37,36 @@ let categories = [
   },
 ]
 
+//--- Validation ---//
+
+function isValid(value) {
+  if (typeof value !== 'string') {
+    return null
+  }
+
+  const trimmed = value.trim()
+  const lower = trimmed.toLowerCase()
+
+  if (lower.length < 3) {
+    return null
+  }
+
+  if (lower.length > 20) {
+    return null
+  }
+
+  return lower
+}
+
 //--- Categories ---//
 
 function addCategory(title) {
+  const validTitle = isValid(title)
+  if (!validTitle) return null
+
   const newCategory = {
     id: randomId(),
-    title,
+    title: validTitle,
     items: [],
   }
   categories.push(newCategory)
@@ -56,7 +80,12 @@ function getCategoryById(categoryId) {
 
 function editCategoryById(categoryId, newTitle) {
   const category = getCategoryById(categoryId)
-  category.title = newTitle
+  const validTitle = isValid(newTitle)
+
+  if (!category || !validTitle) return null
+  category.title = validTitle
+
+  return category
 }
 
 function removeCategoryById(categoryId) {
@@ -67,25 +96,41 @@ function removeCategoryById(categoryId) {
 
 function addItemToCategory(categoryId, title) {
   const category = getCategoryById(categoryId)
+  const validTitle = isValid(title)
+
+  if (!category || !validTitle) return null
+
   const newItem = {
     id: randomId(),
-    title,
+    title: validTitle,
   }
+
   category.items.push(newItem)
+
+  return newItem
 }
 
 function getItemByIdFromCategoryId(categoryId, itemId) {
   const category = getCategoryById(categoryId)
+  if (!category) return null
+
   return category.items.find(item => item.id === itemId)
 }
 
 function editItemById(categoryId, itemId, newTitle) {
   const item = getItemByIdFromCategoryId(categoryId, itemId)
-  item.title = newTitle
+  const validTitle = isValid(newTitle)
+
+  if (!item || !validTitle) return null
+  item.title = validTitle
+
+  return item
 }
 
 function removeItemByIdFromCategoryId(categoryId, itemId) {
   const category = getCategoryById(categoryId)
+  if (!category) return
+
   category.items = category.items.filter(item => item.id !== itemId)
 }
 
@@ -120,3 +165,32 @@ console.log(getItemByIdFromCategoryId(1, 11))
 console.log('--- removeItemByIdFromCategoryId ---')
 removeItemByIdFromCategoryId(1, 12)
 console.log(getCategoryById(1))
+
+//--- Validation tests ---//
+
+console.log('--- isValid ---')
+console.log(isValid('  Наушники  '))
+console.log(isValid('ab'))
+console.log(isValid('a'.repeat(21)))
+console.log(isValid('   '))
+console.log(isValid(42))
+
+console.log('--- addCategory: результат ---')
+console.log(addCategory('Ноутбуки'))
+console.log(addCategory('ab'))
+
+console.log('--- editCategoryById: результат ---')
+console.log(editCategoryById(1, 'Мобильные'))
+console.log(editCategoryById(1, 'ab'))
+console.log(editCategoryById(999, 'Название'))
+
+console.log('--- addItemToCategory: результат ---')
+console.log(addItemToCategory(1, 'Pixel 9'))
+console.log(addItemToCategory(1, 'ab'))
+console.log(addItemToCategory(999, 'Товар'))
+
+console.log('--- editItemById: результат ---')
+console.log(editItemById(1, 11, 'iPhone 15 Pro'))
+console.log(editItemById(1, 11, 'ab'))
+console.log(editItemById(1, 999, 'Товар'))
+console.log(editItemById(999, 11, 'Товар'))
