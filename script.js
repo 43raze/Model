@@ -175,6 +175,28 @@ function removeItemByIdFromCategoryId(categoryId, itemId) {
 
 //--- Validation tests ---//
 
+addCategory('Наушники')
+
+addCategory('Наушники')
+
+addCategory('наушники')
+
+addCategory('нАуШнИкИ')
+
+addCategory('нАуШнИкИ')
+
+addCategory('')
+
+addCategory('        ')
+
+addCategory('    Наушники    ')
+
+addCategory('термоядерные синхрофазотроны')
+
+addCategory('попа')
+
+addCategory('<input type="text" />')
+
 console.log('--- validateTitle ---')
 console.log(isValidateTitle('  Наушники  '))
 console.log(isValidateTitle('ab'))
