@@ -10,3 +10,15 @@ false это противоположность true
 
 null это противоположность объекту
 
+######
+
+model/
+├── index.html
+├── css/
+│ └── style.css
+├── js/
+│ ├── model.js
+│ └── render.js
+├── old/
+├── README.md
+└── .gitignore

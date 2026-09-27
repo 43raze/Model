@@ -1,6 +1,6 @@
 const randomId = () => Math.trunc(Math.random() * 0xffffffff)
 
-let categories = [
+export let categories = [
   {
     id: 1,
     title: 'Смартфоны',
@@ -39,35 +39,28 @@ let categories = [
 
 //--- Validation ---//
 
-// function validateTitle(value) {
-//   if (typeof value !== 'string') {
-//     return null
-//   }
+function isString(value) {
+  return typeof value === 'string'
+}
 
-//   const trimmed = value.trim()
-//   const lower = trimmed.toLowerCase()
+function normalizeTitle(value) {
+  return value.trim().toLowerCase()
+}
 
-//   if (lower.length < 3) {
-//     return null
-//   }
+function isValidTitleLength(word) {
+  return word.length >= 3 && word.length <= 20
+}
 
-//   if (lower.length > 20) {
-//     return null
-//   }
+export function isValidateTitle(value) {
+  if (!isString(value)) return null
+  const word = normalizeTitle(value)
 
-//   return lower
-// }
-
-function isValidateTitle(value) {
-  if (typeof value !== 'string') return null
-  const word = value.trim().toLowerCase()
-
-  return word.length >= 3 && word.length <= 20 ? word : null
+  return isValidTitleLength(word) ? word : null
 }
 
 //--- Categories ---//
 
-function addCategory(title) {
+export function addCategory(title) {
   const validTitle = isValidateTitle(title)
   if (!validTitle) return null
 
@@ -76,32 +69,30 @@ function addCategory(title) {
     title: validTitle,
     items: [],
   }
-  categories.push(newCategory)
 
-  return newCategory
+  categories.push(newCategory)
 }
 
-function getCategoryById(categoryId) {
+export function getCategoryById(categoryId) {
   return categories.find(category => category.id === categoryId)
 }
 
-function editCategoryById(categoryId, newTitle) {
+export function editCategoryById(categoryId, newTitle) {
   const category = getCategoryById(categoryId)
   const validTitle = isValidateTitle(newTitle)
 
   if (!category || !validTitle) return null
-  category.title = validTitle
 
-  return category
+  category.title = validTitle
 }
 
-function removeCategoryById(categoryId) {
+export function removeCategoryById(categoryId) {
   categories = categories.filter(category => category.id !== categoryId)
 }
 
 //--- Items ---//
 
-function addItemToCategory(categoryId, title) {
+export function addItemToCategory(categoryId, title) {
   const category = getCategoryById(categoryId)
   const validTitle = isValidateTitle(title)
 
@@ -113,28 +104,25 @@ function addItemToCategory(categoryId, title) {
   }
 
   category.items.push(newItem)
-
-  return newItem
 }
 
-function getItemByIdFromCategoryId(categoryId, itemId) {
+export function getItemByIdFromCategoryId(categoryId, itemId) {
   const category = getCategoryById(categoryId)
   if (!category) return null
 
   return category.items.find(item => item.id === itemId)
 }
 
-function editItemById(categoryId, itemId, newTitle) {
+export function editItemById(categoryId, itemId, newTitle) {
   const item = getItemByIdFromCategoryId(categoryId, itemId)
   const validTitle = isValidateTitle(newTitle)
 
   if (!item || !validTitle) return null
-  item.title = validTitle
 
-  return item
+  item.title = validTitle
 }
 
-function removeItemByIdFromCategoryId(categoryId, itemId) {
+export function removeItemByIdFromCategoryId(categoryId, itemId) {
   const category = getCategoryById(categoryId)
   if (!category) return
 
