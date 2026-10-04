@@ -40,6 +40,7 @@ body {
 }
 
 .add-form {
+  flex-wrap: wrap;
   display: flex;
   gap: 8px;
   margin-bottom: 24px;
@@ -47,6 +48,10 @@ body {
 
 .add-form--item {
   margin: 12px 0 0;
+}
+
+.add-form--edit-category {
+  margin: 0 0 12px;
 }
 
 .add-form__input {
@@ -173,4 +178,11 @@ body {
   font-size: 14px;
   text-align: center;
   padding: 24px;
+}
+
+.form-error {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--color-danger);
+  font-size: 13px;
 }

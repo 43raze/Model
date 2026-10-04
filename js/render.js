@@ -1,21 +1,29 @@
+import { categories } from './model.js'
 import {
-  categories,
-  addCategory,
-  editCategoryById,
-  removeCategoryById,
-  addItemToCategory,
-  editItemById,
-  removeItemByIdFromCategoryId,
-} from './model.js'
-import { generateCategory, generateEmptyState } from './templates.js'
+  generateCategory,
+  generateEmptyState,
+  generateFormError,
+} from './templates.js'
 
 const categoriesContainer = document.querySelector('.categories')
-// const formAddCategory = document.querySelector('.add-form--category')
-
-renderCategories()
 
 function renderCategories() {
-  categoriesContainer.innerHTML = categories.length
-    ? categories.map(generateCategory).join('')
-    : generateEmptyState('Категорий пока нет')
+  if (!categories.length) {
+    categoriesContainer.innerHTML = generateEmptyState('Категорий пока нет')
+    return
+  }
+
+  categoriesContainer.innerHTML = categories.map(generateCategory).join('')
 }
+
+function renderFormError(elForm, text) {
+  clearFormError(elForm)
+  elForm.insertAdjacentHTML('beforeend', generateFormError(text))
+}
+
+function clearFormError(elForm) {
+  const elError = elForm.querySelector('.form-error')
+  if (elError) elError.remove()
+}
+
+export { renderCategories, renderFormError, clearFormError }

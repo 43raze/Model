@@ -10,8 +10,8 @@ export function generateCategory(category) {
       <div class="category__header">
         <h2 class="category__title">${textToHtml(category.title)}</h2>
         <div class="category__actions">
-          <button type="button" class="category__action" data-action="edit-category">Изменить</button>
-          <button type="button" class="category__action category__action--danger" data-action="delete-category">Удалить</button>
+          <button type="button" class="category__action category__action--edit">Изменить</button>
+          <button type="button" class="category__action category__action--delete category__action--danger">Удалить</button>
         </div>
       </div>
       <ul class="category__items">
@@ -27,8 +27,8 @@ function generateItem(item) {
     <li class="item" data-item-id="${item.id}">
       <span class="item__title">${textToHtml(item.title)}</span>
       <div class="item__actions">
-        <button type="button" class="item__action" data-action="edit-item">Изменить</button>
-        <button type="button" class="item__action item__action--danger" data-action="delete-item">X</button>
+        <button type="button" class="item__action item__action--edit">Изменить</button>
+        <button type="button" class="item__action item__action--delete item__action--danger">X</button>
       </div>
     </li>
   `
@@ -41,6 +41,20 @@ function generateFormAddItem() {
       <button type="submit" class="add-form__button add-form__button--secondary">Добавить</button>
     </form>
   `
+}
+
+export function generateFormEditCategory() {
+  return `
+    <form class="add-form add-form--edit-category">
+      <input type="text" name="title" class="add-form__input" placeholder="Название категории" />
+      <button type="submit" class="add-form__button add-form__button--primary">Сохранить</button>
+      <button type="button" class="add-form__button add-form__button--secondary add-form__button--cancel">Отмена</button>
+    </form>
+  `
+}
+
+export function generateFormError(text) {
+  return `<p class="form-error">${textToHtml(text)}</p>`
 }
 
 export function generateEmptyState(text) {

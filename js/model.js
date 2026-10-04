@@ -44,7 +44,8 @@ function isString(value) {
 }
 
 function normalizeTitle(value) {
-  return value.trim().toLowerCase()
+  const word = value.trim().toLowerCase()
+  return word.slice(0, 1).toUpperCase() + word.slice(1)
 }
 
 function isValidTitleLength(word) {
