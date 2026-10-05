@@ -4,7 +4,7 @@ function textToHtml(text) {
   return elDiv.innerHTML
 }
 
-export function generateCategory(category) {
+function generateCategory(category) {
   return `
     <section class="category" data-category-id="${category.id}">
       <div class="category__header">
@@ -43,7 +43,7 @@ function generateFormAddItem() {
   `
 }
 
-export function generateFormEditCategory() {
+function generateFormEditCategory() {
   return `
     <form class="add-form add-form--edit-category">
       <input type="text" name="title" class="add-form__input" placeholder="Название категории" />
@@ -53,10 +53,17 @@ export function generateFormEditCategory() {
   `
 }
 
-export function generateFormError(text) {
+function generateFormError(text) {
   return `<p class="form-error">${textToHtml(text)}</p>`
 }
 
-export function generateEmptyState(text) {
+function generateEmptyState(text) {
   return `<div class="empty-state">${textToHtml(text)}</div>`
+}
+
+export {
+  generateCategory,
+  generateFormEditCategory,
+  generateFormError,
+  generateEmptyState,
 }
