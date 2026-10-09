@@ -1,15 +1,3 @@
-import {
-  categories,
-  isValidateTitle,
-  addCategory,
-  getCategoryById,
-  editCategoryById,
-  removeCategoryById,
-  addItemToCategory,
-  getItemByIdFromCategoryId,
-  editItemById,
-  removeItemByIdFromCategoryId,
-} from './model.js'
 
 //--- Tests ---//
 

@@ -186,3 +186,7 @@ body {
   color: var(--color-danger);
   font-size: 13px;
 }
+
+.form-error:empty {
+  display: none;
+}

@@ -43,7 +43,7 @@ function isString(value) {
   return typeof value === 'string'
 }
 
-function normalizeTitle(value) {
+function toUpperCaseTitle(value) {
   const word = value.trim().toLowerCase()
   return word.slice(0, 1).toUpperCase() + word.slice(1)
 }
@@ -52,9 +52,9 @@ function isValidTitleLength(word) {
   return word.length >= 3 && word.length <= 20
 }
 
-function isValidateTitle(value) {
-  if (!isString(value)) return null
-  const word = normalizeTitle(value)
+function isValidateTitle(title) {
+  if (!isString(title)) return null
+  const word = toUpperCaseTitle(title)
 
   return isValidTitleLength(word) ? word : null
 }
@@ -128,17 +128,4 @@ function removeItemByIdFromCategoryId(categoryId, itemId) {
   if (!category) return
 
   category.items = category.items.filter(item => item.id !== itemId)
-}
-
-export {
-  categories,
-  isValidateTitle,
-  addCategory,
-  getCategoryById,
-  editCategoryById,
-  removeCategoryById,
-  addItemToCategory,
-  getItemByIdFromCategoryId,
-  editItemById,
-  removeItemByIdFromCategoryId,
 }

@@ -23,11 +23,17 @@
         <button type="submit" class="add-form__button add-form__button--primary">
           Добавить категорию
         </button>
+        <p class="form-error"></p>
       </form>
 
       <div class="categories"></div>
+      <div class="empty-state" hidden>Категорий пока нет</div>
     </main>
 
-    <script type="module" src="js/main.js"></script>
+    <script src="./js/model.js"></script>
+    <script src="./js/view/generators.js"></script>
+    <script src="./js/view/renders.js"></script>
+    <script src="./js/view/listeners.js"></script>
+    <script src="./js/controller.js"></script>
   </body>
 </html>
