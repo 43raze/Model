@@ -10,21 +10,23 @@ false это противоположность true
 
 null это противоположность объекту
 
-######
+## Структура
 
+```
 model/
 ├── index.html
 ├── css/
-│ └── style.css
+│   └── style.css
 ├── js/
-│ ├── model.js — categories и функции для работы с ними
-│ ├── controller.js — handle*: меняет модель, вызывает render*
-│ └── view/
-│ ├── generators.js — generate*: данные → HTML-строка
-│ ├── renders.js — render*: данные → DOM
-│ └── listeners.js — on*: DOM → значения → handle*
+│   ├── model.js — categories и функции для работы с ними
+│   ├── controller.js — handle*: меняет модель, вызывает render*
+│   └── view/
+│       ├── generators.js — generate*: данные → HTML-строка
+│       ├── renders.js — render*: данные → DOM
+│       └── listeners.js — on*: DOM → значения → handle*, initListeners
 ├── test/
-│ ├── test.html — открыть в браузере, результаты в консоли
-│ └── model.test.js
+│   ├── test.html — открыть в браузере, результаты в консоли
+│   └── model.test.js
 ├── README.md
 └── .gitignore
+```
