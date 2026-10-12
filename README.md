@@ -30,3 +30,7 @@ model/
 ├── README.md
 └── .gitignore
 ```
+
+function isValidateTitle(title) { - что приходит ? что она делает ? и что возвращает ?
+
+
