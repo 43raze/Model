@@ -1,3 +1,12 @@
+import {
+  handleAddCategory,
+  handleAddItem,
+  handleOpenCategoryForEditing,
+  handleEditCategory,
+  handleCancelEditCategory,
+  handleRemoveCategory,
+} from '../controller.js'
+
 function getCategoryId(e) {
   return +e.target.closest('.category').dataset.categoryId
 }
@@ -51,3 +60,5 @@ function initListeners() {
   elCategories.addEventListener('submit', onSubmitCategories)
   elCategories.addEventListener('click', onClickCategories)
 }
+
+export { initListeners }

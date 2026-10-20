@@ -37,37 +37,12 @@ let categories = [
   },
 ]
 
-//--- Validation ---//
-
-function isString(value) {
-  return typeof value === 'string'
-}
-
-function toUpperCaseTitle(value) {
-  const word = value.trim().toLowerCase()
-  return word.slice(0, 1).toUpperCase() + word.slice(1)
-}
-
-function isValidTitleLength(word) {
-  return word.length >= 3 && word.length <= 20
-}
-
-function isValidateTitle(title) {
-  if (!isString(title)) return null
-  const word = toUpperCaseTitle(title)
-
-  return isValidTitleLength(word) ? word : null
-}
-
 //--- Categories ---//
 
 function addCategory(title) {
-  const validTitle = isValidateTitle(title)
-  if (!validTitle) return null
-
   const newCategory = {
     id: randomId(),
-    title: validTitle,
+    title,
     items: [],
   }
 
@@ -80,11 +55,9 @@ function getCategoryById(categoryId) {
 
 function editCategoryById(categoryId, newTitle) {
   const category = getCategoryById(categoryId)
-  const validTitle = isValidateTitle(newTitle)
+  if (!category) return null
 
-  if (!category || !validTitle) return null
-
-  category.title = validTitle
+  category.title = newTitle
 }
 
 function removeCategoryById(categoryId) {
@@ -95,13 +68,11 @@ function removeCategoryById(categoryId) {
 
 function addItemToCategory(categoryId, title) {
   const category = getCategoryById(categoryId)
-  const validTitle = isValidateTitle(title)
-
-  if (!category || !validTitle) return null
+  if (!category) return null
 
   const newItem = {
     id: randomId(),
-    title: validTitle,
+    title,
   }
 
   category.items.push(newItem)
@@ -116,11 +87,9 @@ function getItemByIdFromCategoryId(categoryId, itemId) {
 
 function editItemById(categoryId, itemId, newTitle) {
   const item = getItemByIdFromCategoryId(categoryId, itemId)
-  const validTitle = isValidateTitle(newTitle)
+  if (!item) return null
 
-  if (!item || !validTitle) return null
-
-  item.title = validTitle
+  item.title = newTitle
 }
 
 function removeItemByIdFromCategoryId(categoryId, itemId) {
@@ -128,4 +97,16 @@ function removeItemByIdFromCategoryId(categoryId, itemId) {
   if (!category) return
 
   category.items = category.items.filter(item => item.id !== itemId)
+}
+
+export {
+  categories,
+  addCategory,
+  getCategoryById,
+  editCategoryById,
+  removeCategoryById,
+  addItemToCategory,
+  getItemByIdFromCategoryId,
+  editItemById,
+  removeItemByIdFromCategoryId,
 }

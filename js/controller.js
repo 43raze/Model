@@ -1,16 +1,37 @@
-const ERROR_TITLE = 'Название должно быть от 3 до 20 символов'
+import {
+  categories,
+  addCategory,
+  getCategoryById,
+  editCategoryById,
+  removeCategoryById,
+  addItemToCategory,
+} from './model.js'
+import { ERROR_TITLE, normalizeTitle } from './validation.js'
+import {
+  renderCategories,
+  renderFormAddCategoryReset,
+  renderFormAddCategoryError,
+  renderFormAddItemError,
+  renderFormEditCategory,
+  renderFormEditCategoryError,
+} from './view/renders.js'
+import { initListeners } from './view/listeners.js'
 
 function handleAddCategory(title) {
-  const result = addCategory(title)
-  if (result === null) return renderFormAddCategoryError(ERROR_TITLE)
+  const validTitle = normalizeTitle(title)
+  if (!validTitle) return renderFormAddCategoryError(ERROR_TITLE)
+
+  addCategory(validTitle)
 
   renderFormAddCategoryReset()
   renderCategories(categories)
 }
 
 function handleAddItem(categoryId, title) {
-  const result = addItemToCategory(categoryId, title)
-  if (result === null) return renderFormAddItemError(categoryId, ERROR_TITLE)
+  const validTitle = normalizeTitle(title)
+  if (!validTitle) return renderFormAddItemError(categoryId, ERROR_TITLE)
+
+  addItemToCategory(categoryId, validTitle)
 
   renderCategories(categories)
 }
@@ -23,8 +44,10 @@ function handleOpenCategoryForEditing(categoryId) {
 }
 
 function handleEditCategory(categoryId, title) {
-  const result = editCategoryById(categoryId, title)
-  if (result === null) return renderFormEditCategoryError(categoryId, ERROR_TITLE)
+  const validTitle = normalizeTitle(title)
+  if (!validTitle) return renderFormEditCategoryError(categoryId, ERROR_TITLE)
+
+  editCategoryById(categoryId, validTitle)
 
   renderCategories(categories)
 }
@@ -40,3 +63,12 @@ function handleRemoveCategory(categoryId) {
 
 initListeners()
 renderCategories(categories)
+
+export {
+  handleAddCategory,
+  handleAddItem,
+  handleOpenCategoryForEditing,
+  handleEditCategory,
+  handleCancelEditCategory,
+  handleRemoveCategory,
+}

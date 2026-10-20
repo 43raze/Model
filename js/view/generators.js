@@ -49,3 +49,4 @@ function generateFormEditCategory() {
   `
 }
 
+export { generateCategory, generateFormEditCategory }

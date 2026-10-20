@@ -1,3 +1,5 @@
+import { generateCategory, generateFormEditCategory } from './generators.js'
+
 function getElCategory(categoryId) {
   return document.querySelector(`[data-category-id="${categoryId}"]`)
 }
@@ -53,4 +55,13 @@ function renderFormEditCategoryError(categoryId, text) {
   )
 
   renderFormError(elForm, text)
+}
+
+export {
+  renderCategories,
+  renderFormAddCategoryReset,
+  renderFormAddCategoryError,
+  renderFormAddItemError,
+  renderFormEditCategory,
+  renderFormEditCategoryError,
 }
