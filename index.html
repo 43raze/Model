@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Каталог</title>
     <link rel="stylesheet" href="css/style.css" />
+    <script>
+      function handleContentLoaded(text, timestamp) {
+        const categories = getCategories(text, timestamp)
+        renderCategories(categories)
+      }
+
+      function onDOMContentLoaded(e) {
+        let text = document.querySelector('h1').textContent
+        handleContentLoaded(text, e.timestamp)
+      }
+
+      document.addEventListener('DOMContentLoaded', onDOMContentLoaded)
+
+      // document.addEventListener('DOMContentLoaded', () => {
+      //   console.log('hello page')
+      //   let x = document.querySelector('h1')
+      //   console.log(x)
+      //   onDOMContentLoaded()
+      // })
+    </script>
   </head>
 
   <body>
@@ -20,7 +40,10 @@
           class="add-form__input"
           placeholder="Название новой категории"
         />
-        <button type="submit" class="add-form__button add-form__button--primary">
+        <button
+          type="submit"
+          class="add-form__button add-form__button--primary"
+        >
           Добавить категорию
         </button>
         <p class="form-error"></p>

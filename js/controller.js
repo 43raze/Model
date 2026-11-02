@@ -61,7 +61,7 @@ function handleRemoveCategory(categoryId) {
   renderCategories(categories)
 }
 
-initListeners()
+initListeners() // ?
 renderCategories(categories)
 
 export {
@@ -72,3 +72,5 @@ export {
   handleCancelEditCategory,
   handleRemoveCategory,
 }
+
+document.addEventListener('DOMContentLoaded', onDOMContentLoaded)
