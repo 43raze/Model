@@ -5,26 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Каталог</title>
     <link rel="stylesheet" href="css/style.css" />
-    <script>
-      function handleContentLoaded(text, timestamp) {
-        const categories = getCategories(text, timestamp)
-        renderCategories(categories)
-      }
-
-      function onDOMContentLoaded(e) {
-        let text = document.querySelector('h1').textContent
-        handleContentLoaded(text, e.timestamp)
-      }
-
-      document.addEventListener('DOMContentLoaded', onDOMContentLoaded)
-
-      // document.addEventListener('DOMContentLoaded', () => {
-      //   console.log('hello page')
-      //   let x = document.querySelector('h1')
-      //   console.log(x)
-      //   onDOMContentLoaded()
-      // })
-    </script>
+    <script type="module" src="./js/controller.js"></script>
   </head>
 
   <body>
@@ -52,7 +33,5 @@
       <div class="categories"></div>
       <div class="empty-state" hidden>Категорий пока нет</div>
     </main>
-
-    <script type="module" src="./js/controller.js"></script>
   </body>
 </html>

@@ -15,7 +15,12 @@ import {
   renderFormEditCategory,
   renderFormEditCategoryError,
 } from './view/renders.js'
-import { initListeners } from './view/listeners.js'
+import { initListeners, onDOMContentLoaded } from './view/listeners.js'
+
+function handleContentLoaded() {
+  initListeners()
+  renderCategories(categories)
+}
 
 function handleAddCategory(title) {
   const validTitle = normalizeTitle(title)
@@ -61,10 +66,8 @@ function handleRemoveCategory(categoryId) {
   renderCategories(categories)
 }
 
-initListeners() // ?
-renderCategories(categories)
-
 export {
+  handleContentLoaded,
   handleAddCategory,
   handleAddItem,
   handleOpenCategoryForEditing,

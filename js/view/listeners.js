@@ -1,4 +1,5 @@
 import {
+  handleContentLoaded,
   handleAddCategory,
   handleAddItem,
   handleOpenCategoryForEditing,
@@ -9,6 +10,10 @@ import {
 
 function getCategoryId(e) {
   return +e.target.closest('.category').dataset.categoryId
+}
+
+function onDOMContentLoaded() {
+  handleContentLoaded()
 }
 
 function onSubmitFormAddCategory(e) {
@@ -61,4 +66,4 @@ function initListeners() {
   elCategories.addEventListener('click', onClickCategories)
 }
 
-export { initListeners }
+export { initListeners, onDOMContentLoaded }
