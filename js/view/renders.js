@@ -45,6 +45,7 @@ function renderFormEditCategory(category) {
   const elForm = elCategory.querySelector('.add-form--edit-category')
   const elInput = elForm.elements.title
 
+  // elButtonSave.click = onClickButtonSaveCategory <<===
   elInput.value = category.title
   elInput.focus()
 }

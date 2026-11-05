@@ -18,7 +18,7 @@ import {
 import { initListeners, onDOMContentLoaded } from './view/listeners.js'
 
 function handleContentLoaded() {
-  initListeners()
+  initListeners() // ?
   renderCategories(categories)
 }
 

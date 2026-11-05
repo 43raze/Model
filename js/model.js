@@ -49,6 +49,10 @@ function addCategory(title) {
   categories.push(newCategory)
 }
 
+function getCategoriesAll() {
+  return categories
+}
+
 function getCategoryById(categoryId) {
   return categories.find(category => category.id === categoryId)
 }
