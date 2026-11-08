@@ -1,10 +1,13 @@
 import {
-  categories,
+  getCategoriesAll,
   addCategory,
   getCategoryById,
   editCategoryById,
   removeCategoryById,
   addItemToCategory,
+  getItemByIdFromCategoryId,
+  editItemById,
+  removeItemByIdFromCategoryId,
 } from './model.js'
 import { ERROR_TITLE, normalizeTitle } from './validation.js'
 import {
@@ -14,12 +17,14 @@ import {
   renderFormAddItemError,
   renderFormEditCategory,
   renderFormEditCategoryError,
+  renderFormEditItem,
+  renderFormEditItemError,
 } from './view/renders.js'
 import { initListeners, onDOMContentLoaded } from './view/listeners.js'
 
 function handleContentLoaded() {
   initListeners() // ?
-  renderCategories(categories)
+  renderCategories(getCategoriesAll())
 }
 
 function handleAddCategory(title) {
@@ -29,7 +34,7 @@ function handleAddCategory(title) {
   addCategory(validTitle)
 
   renderFormAddCategoryReset()
-  renderCategories(categories)
+  renderCategories(getCategoriesAll())
 }
 
 function handleAddItem(categoryId, title) {
@@ -38,7 +43,7 @@ function handleAddItem(categoryId, title) {
 
   addItemToCategory(categoryId, validTitle)
 
-  renderCategories(categories)
+  renderCategories(getCategoriesAll())
 }
 
 function handleOpenCategoryForEditing(categoryId) {
@@ -54,16 +59,42 @@ function handleEditCategory(categoryId, title) {
 
   editCategoryById(categoryId, validTitle)
 
-  renderCategories(categories)
+  renderCategories(getCategoriesAll())
 }
 
 function handleCancelEditCategory() {
-  renderCategories(categories)
+  renderCategories(getCategoriesAll())
 }
 
 function handleRemoveCategory(categoryId) {
   removeCategoryById(categoryId)
-  renderCategories(categories)
+  renderCategories(getCategoriesAll())
+}
+
+function handleOpenItemForEditing(categoryId, itemId) {
+  const item = getItemByIdFromCategoryId(categoryId, itemId)
+  if (!item) return
+
+  renderFormEditItem(categoryId, item)
+}
+
+function handleEditItem(categoryId, itemId, title) {
+  const validTitle = normalizeTitle(title)
+  if (!validTitle)
+    return renderFormEditItemError(categoryId, itemId, ERROR_TITLE)
+
+  editItemById(categoryId, itemId, validTitle)
+
+  renderCategories(getCategoriesAll())
+}
+
+function handleCancelEditItem() {
+  renderCategories(getCategoriesAll())
+}
+
+function handleRemoveItem(categoryId, itemId) {
+  removeItemByIdFromCategoryId(categoryId, itemId)
+  renderCategories(getCategoriesAll())
 }
 
 export {
@@ -74,6 +105,10 @@ export {
   handleEditCategory,
   handleCancelEditCategory,
   handleRemoveCategory,
+  handleOpenItemForEditing,
+  handleEditItem,
+  handleCancelEditItem,
+  handleRemoveItem,
 }
 
 document.addEventListener('DOMContentLoaded', onDOMContentLoaded)

@@ -38,10 +38,10 @@ function generateFormAddItem() {
   `
 }
 
-function generateFormEditCategory() {
+function generateFormEditCategory(category) {
   return `
     <form class="add-form add-form--edit-category">
-      <input type="text" name="title" class="add-form__input" placeholder="Название категории" />
+      <input type="text" name="title" class="add-form__input" placeholder="Название категории" value="${category.title}" />
       <button type="submit" class="add-form__button add-form__button--primary">Сохранить</button>
       <button type="button" class="add-form__button add-form__button--secondary add-form__button--cancel">Отмена</button>
       <p class="form-error"></p>
@@ -49,4 +49,15 @@ function generateFormEditCategory() {
   `
 }
 
-export { generateCategory, generateFormEditCategory }
+function generateFormEditItem(item) {
+  return `
+    <form class="add-form add-form--edit-item">
+      <input type="text" name="title" class="add-form__input" placeholder="Название товара" value="${item.title}" />
+      <button type="submit" class="add-form__button add-form__button--primary">Сохранить</button>
+      <button type="button" class="add-form__button add-form__button--secondary add-form__button--cancel">Отмена</button>
+      <p class="form-error"></p>
+    </form>
+  `
+}
+
+export { generateCategory, generateFormEditCategory, generateFormEditItem }

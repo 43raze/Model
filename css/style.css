@@ -54,6 +54,11 @@ body {
   margin: 0 0 12px;
 }
 
+.add-form--edit-item {
+  flex: 1;
+  margin: 0;
+}
+
 .add-form__input {
   flex: 1;
   padding: 10px 12px;

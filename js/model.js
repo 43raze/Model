@@ -1,6 +1,6 @@
 const randomId = () => Math.trunc(Math.random() * 0xffffffff)
 
-let categories = [
+const categories = [
   {
     id: 1,
     title: 'Смартфоны',
@@ -37,6 +37,8 @@ let categories = [
   },
 ]
 
+let categoriesCopy = structuredClone(categories)
+
 //--- Categories ---//
 
 function addCategory(title) {
@@ -46,15 +48,15 @@ function addCategory(title) {
     items: [],
   }
 
-  categories.push(newCategory)
+  categoriesCopy.push(newCategory)
 }
 
 function getCategoriesAll() {
-  return categories
+  return categoriesCopy
 }
 
 function getCategoryById(categoryId) {
-  return categories.find(category => category.id === categoryId)
+  return categoriesCopy.find(category => category.id === categoryId)
 }
 
 function editCategoryById(categoryId, newTitle) {
@@ -65,7 +67,7 @@ function editCategoryById(categoryId, newTitle) {
 }
 
 function removeCategoryById(categoryId) {
-  categories = categories.filter(category => category.id !== categoryId)
+  categoriesCopy = categoriesCopy.filter(category => category.id !== categoryId)
 }
 
 //--- Items ---//
@@ -104,7 +106,7 @@ function removeItemByIdFromCategoryId(categoryId, itemId) {
 }
 
 export {
-  categories,
+  getCategoriesAll,
   addCategory,
   getCategoryById,
   editCategoryById,
