@@ -1,18 +1,18 @@
 import {
-  getCategoriesAll,
+  getAllCategories,
   addCategory,
   getCategoryById,
-  editCategoryById,
+  editCategoryTitleById,
   removeCategoryById,
   addItemToCategory,
   getItemByIdFromCategoryId,
-  editItemById,
+  editItemTitleByIdFromCategoryId,
   removeItemByIdFromCategoryId,
 } from './model.js'
-import { ERROR_TITLE, normalizeTitle } from './validation.js'
+import { ERROR_TITLE_LENGTH, getValidTitle } from './validation.js'
 import {
   renderCategories,
-  renderFormAddCategoryReset,
+  resetFormAddCategory,
   renderFormAddCategoryError,
   renderFormAddItemError,
   renderFormEditCategory,
@@ -20,30 +20,30 @@ import {
   renderFormEditItem,
   renderFormEditItemError,
 } from './view/renders.js'
-import { initListeners, onDOMContentLoaded } from './view/listeners.js'
+import { addListenersFormAddCategory, onDOMContentLoaded } from './view/listeners.js'
 
 function handleContentLoaded() {
-  initListeners() // ?
-  renderCategories(getCategoriesAll())
+  addListenersFormAddCategory()
+  renderCategories(getAllCategories())
 }
 
 function handleAddCategory(title) {
-  const validTitle = normalizeTitle(title)
-  if (!validTitle) return renderFormAddCategoryError(ERROR_TITLE)
+  const validTitle = getValidTitle(title)
+  if (!validTitle) return renderFormAddCategoryError(ERROR_TITLE_LENGTH)
 
   addCategory(validTitle)
 
-  renderFormAddCategoryReset()
-  renderCategories(getCategoriesAll())
+  resetFormAddCategory()
+  renderCategories(getAllCategories())
 }
 
 function handleAddItem(categoryId, title) {
-  const validTitle = normalizeTitle(title)
-  if (!validTitle) return renderFormAddItemError(categoryId, ERROR_TITLE)
+  const validTitle = getValidTitle(title)
+  if (!validTitle) return renderFormAddItemError(categoryId, ERROR_TITLE_LENGTH)
 
   addItemToCategory(categoryId, validTitle)
 
-  renderCategories(getCategoriesAll())
+  renderCategories(getAllCategories())
 }
 
 function handleOpenCategoryForEditing(categoryId) {
@@ -53,22 +53,22 @@ function handleOpenCategoryForEditing(categoryId) {
   renderFormEditCategory(category)
 }
 
-function handleEditCategory(categoryId, title) {
-  const validTitle = normalizeTitle(title)
-  if (!validTitle) return renderFormEditCategoryError(categoryId, ERROR_TITLE)
+function handleSaveCategory(categoryId, title) {
+  const validTitle = getValidTitle(title)
+  if (!validTitle) return renderFormEditCategoryError(categoryId, ERROR_TITLE_LENGTH)
 
-  editCategoryById(categoryId, validTitle)
+  editCategoryTitleById(categoryId, validTitle)
 
-  renderCategories(getCategoriesAll())
+  renderCategories(getAllCategories())
 }
 
 function handleCancelEditCategory() {
-  renderCategories(getCategoriesAll())
+  renderCategories(getAllCategories())
 }
 
 function handleRemoveCategory(categoryId) {
   removeCategoryById(categoryId)
-  renderCategories(getCategoriesAll())
+  renderCategories(getAllCategories())
 }
 
 function handleOpenItemForEditing(categoryId, itemId) {
@@ -78,23 +78,23 @@ function handleOpenItemForEditing(categoryId, itemId) {
   renderFormEditItem(categoryId, item)
 }
 
-function handleEditItem(categoryId, itemId, title) {
-  const validTitle = normalizeTitle(title)
+function handleSaveItem(categoryId, itemId, title) {
+  const validTitle = getValidTitle(title)
   if (!validTitle)
-    return renderFormEditItemError(categoryId, itemId, ERROR_TITLE)
+    return renderFormEditItemError(categoryId, itemId, ERROR_TITLE_LENGTH)
 
-  editItemById(categoryId, itemId, validTitle)
+  editItemTitleByIdFromCategoryId(categoryId, itemId, validTitle)
 
-  renderCategories(getCategoriesAll())
+  renderCategories(getAllCategories())
 }
 
 function handleCancelEditItem() {
-  renderCategories(getCategoriesAll())
+  renderCategories(getAllCategories())
 }
 
 function handleRemoveItem(categoryId, itemId) {
   removeItemByIdFromCategoryId(categoryId, itemId)
-  renderCategories(getCategoriesAll())
+  renderCategories(getAllCategories())
 }
 
 export {
@@ -102,11 +102,11 @@ export {
   handleAddCategory,
   handleAddItem,
   handleOpenCategoryForEditing,
-  handleEditCategory,
+  handleSaveCategory,
   handleCancelEditCategory,
   handleRemoveCategory,
   handleOpenItemForEditing,
-  handleEditItem,
+  handleSaveItem,
   handleCancelEditItem,
   handleRemoveItem,
 }

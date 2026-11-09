@@ -1,6 +1,6 @@
 const TITLE_MIN_LENGTH = 3
 const TITLE_MAX_LENGTH = 20
-const ERROR_TITLE = `Название должно быть от ${TITLE_MIN_LENGTH} до ${TITLE_MAX_LENGTH} символов`
+const ERROR_TITLE_LENGTH = `Название должно быть от ${TITLE_MIN_LENGTH} до ${TITLE_MAX_LENGTH} символов`
 
 function isValidStringLength(str, min, max) {
   return str.length >= min && str.length <= max
@@ -10,7 +10,7 @@ function capitalize(str) {
   return str.slice(0, 1).toUpperCase() + str.slice(1)
 }
 
-function normalizeTitle(title) {
+function getValidTitle(title) {
   const trimmed = title.trim()
   if (!isValidStringLength(trimmed, TITLE_MIN_LENGTH, TITLE_MAX_LENGTH))
     return null
@@ -18,4 +18,4 @@ function normalizeTitle(title) {
   return capitalize(trimmed)
 }
 
-export { ERROR_TITLE, normalizeTitle, isValidStringLength, capitalize }
+export { ERROR_TITLE_LENGTH, getValidTitle, isValidStringLength, capitalize }

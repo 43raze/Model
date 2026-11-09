@@ -1,4 +1,4 @@
-const randomId = () => Math.trunc(Math.random() * 0xffffffff)
+const generateRandomId = () => Math.trunc(Math.random() * 0xffffffff)
 
 const categories = [
   {
@@ -37,13 +37,31 @@ const categories = [
   },
 ]
 
+// Исходные данные не меняются — модель работает с копией
 let categoriesCopy = structuredClone(categories)
 
 //--- Categories ---//
 
+// Возвращает рабочую категорию из categoriesCopy — только для изменений внутри модели
+function findCategoryById(categoryId) {
+  return categoriesCopy.find(category => category.id === categoryId)
+}
+
+function getAllCategories() {
+  return structuredClone(categoriesCopy)
+}
+
+// Возвращает копию категории — для отдачи наружу
+function getCategoryById(categoryId) {
+  const category = findCategoryById(categoryId)
+  if (!category) return null
+
+  return structuredClone(category)
+}
+
 function addCategory(title) {
   const newCategory = {
-    id: randomId(),
+    id: generateRandomId(),
     title,
     items: [],
   }
@@ -51,16 +69,8 @@ function addCategory(title) {
   categoriesCopy.push(newCategory)
 }
 
-function getCategoriesAll() {
-  return categoriesCopy
-}
-
-function getCategoryById(categoryId) {
-  return categoriesCopy.find(category => category.id === categoryId)
-}
-
-function editCategoryById(categoryId, newTitle) {
-  const category = getCategoryById(categoryId)
+function editCategoryTitleById(categoryId, newTitle) {
+  const category = findCategoryById(categoryId)
   if (!category) return null
 
   category.title = newTitle
@@ -72,47 +82,56 @@ function removeCategoryById(categoryId) {
 
 //--- Items ---//
 
+// Возвращает рабочий товар из categoriesCopy — только для изменений внутри модели
+function findItemByIdFromCategoryId(categoryId, itemId) {
+  const category = findCategoryById(categoryId)
+  if (!category) return null
+
+  return category.items.find(item => item.id === itemId)
+}
+
+// Возвращает копию товара — для отдачи наружу
+function getItemByIdFromCategoryId(categoryId, itemId) {
+  const item = findItemByIdFromCategoryId(categoryId, itemId)
+  if (!item) return null
+
+  return structuredClone(item)
+}
+
 function addItemToCategory(categoryId, title) {
-  const category = getCategoryById(categoryId)
+  const category = findCategoryById(categoryId)
   if (!category) return null
 
   const newItem = {
-    id: randomId(),
+    id: generateRandomId(),
     title,
   }
 
   category.items.push(newItem)
 }
 
-function getItemByIdFromCategoryId(categoryId, itemId) {
-  const category = getCategoryById(categoryId)
-  if (!category) return null
-
-  return category.items.find(item => item.id === itemId)
-}
-
-function editItemById(categoryId, itemId, newTitle) {
-  const item = getItemByIdFromCategoryId(categoryId, itemId)
+function editItemTitleByIdFromCategoryId(categoryId, itemId, newTitle) {
+  const item = findItemByIdFromCategoryId(categoryId, itemId)
   if (!item) return null
 
   item.title = newTitle
 }
 
 function removeItemByIdFromCategoryId(categoryId, itemId) {
-  const category = getCategoryById(categoryId)
+  const category = findCategoryById(categoryId)
   if (!category) return
 
   category.items = category.items.filter(item => item.id !== itemId)
 }
 
 export {
-  getCategoriesAll,
-  addCategory,
+  getAllCategories,
   getCategoryById,
-  editCategoryById,
+  addCategory,
+  editCategoryTitleById,
   removeCategoryById,
-  addItemToCategory,
   getItemByIdFromCategoryId,
-  editItemById,
+  addItemToCategory,
+  editItemTitleByIdFromCategoryId,
   removeItemByIdFromCategoryId,
 }

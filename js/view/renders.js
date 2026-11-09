@@ -4,17 +4,17 @@ import {
   generateFormEditItem,
 } from './generators.js'
 import {
-  addCategoryListeners,
-  addFormEditCategoryListeners,
-  addFormEditItemListeners,
+  addListenersCategory,
+  addListenersFormEditCategory,
+  addListenersFormEditItem,
 } from './listeners.js'
 
-function getElCategory(categoryId) {
+function getElCategoryById(categoryId) {
   return document.querySelector(`[data-category-id="${categoryId}"]`)
 }
 
-function getElItem(categoryId, itemId) {
-  return getElCategory(categoryId).querySelector(`[data-item-id="${itemId}"]`)
+function getElItemById(categoryId, itemId) {
+  return getElCategoryById(categoryId).querySelector(`[data-item-id="${itemId}"]`)
 }
 
 function renderCategories(categories) {
@@ -23,7 +23,7 @@ function renderCategories(categories) {
 
   elEmptyState.hidden = categories.length > 0
   elCategories.innerHTML = categories.map(generateCategory).join('')
-  elCategories.querySelectorAll('.category').forEach(addCategoryListeners)
+  elCategories.querySelectorAll('.category').forEach(addListenersCategory)
 }
 
 function renderFormError(elForm, text) {
@@ -34,7 +34,7 @@ function clearFormError(elForm) {
   renderFormError(elForm, '')
 }
 
-function renderFormAddCategoryReset() {
+function resetFormAddCategory() {
   const elForm = document.querySelector('.add-form--category')
   elForm.reset()
   clearFormError(elForm)
@@ -46,24 +46,26 @@ function renderFormAddCategoryError(text) {
 }
 
 function renderFormAddItemError(categoryId, text) {
-  const elForm = getElCategory(categoryId).querySelector('.add-form--item')
+  const elForm = getElCategoryById(categoryId).querySelector('.add-form--item')
   renderFormError(elForm, text)
 }
 
 function renderFormEditCategory(category) {
-  const elCategory = getElCategory(category.id)
+  const elCategory = getElCategoryById(category.id)
   const elHeader = elCategory.querySelector('.category__header')
 
-  elHeader.outerHTML = generateFormEditCategory(category)
+  elHeader.outerHTML = generateFormEditCategory()
 
   const elForm = elCategory.querySelector('.add-form--edit-category')
+  const elInput = elForm.elements.title
 
-  addFormEditCategoryListeners(elForm)
-  elForm.elements.title.focus()
+  addListenersFormEditCategory(elForm)
+  elInput.value = category.title
+  elInput.focus()
 }
 
 function renderFormEditCategoryError(categoryId, text) {
-  const elForm = getElCategory(categoryId).querySelector(
+  const elForm = getElCategoryById(categoryId).querySelector(
     '.add-form--edit-category',
   )
 
@@ -71,18 +73,20 @@ function renderFormEditCategoryError(categoryId, text) {
 }
 
 function renderFormEditItem(categoryId, item) {
-  const elItem = getElItem(categoryId, item.id)
+  const elItem = getElItemById(categoryId, item.id)
 
-  elItem.innerHTML = generateFormEditItem(item)
+  elItem.innerHTML = generateFormEditItem()
 
   const elForm = elItem.querySelector('.add-form--edit-item')
+  const elInput = elForm.elements.title
 
-  addFormEditItemListeners(elForm)
-  elForm.elements.title.focus()
+  addListenersFormEditItem(elForm)
+  elInput.value = item.title
+  elInput.focus()
 }
 
 function renderFormEditItemError(categoryId, itemId, text) {
-  const elForm = getElItem(categoryId, itemId).querySelector(
+  const elForm = getElItemById(categoryId, itemId).querySelector(
     '.add-form--edit-item',
   )
 
@@ -91,7 +95,7 @@ function renderFormEditItemError(categoryId, itemId, text) {
 
 export {
   renderCategories,
-  renderFormAddCategoryReset,
+  resetFormAddCategory,
   renderFormAddCategoryError,
   renderFormAddItemError,
   renderFormEditCategory,

@@ -3,20 +3,20 @@ import {
   handleAddCategory,
   handleAddItem,
   handleOpenCategoryForEditing,
-  handleEditCategory,
+  handleSaveCategory,
   handleCancelEditCategory,
   handleRemoveCategory,
   handleOpenItemForEditing,
-  handleEditItem,
+  handleSaveItem,
   handleCancelEditItem,
   handleRemoveItem,
 } from '../controller.js'
 
-function getCategoryId(e) {
+function getCategoryIdFromEvent(e) {
   return +e.currentTarget.closest('.category').dataset.categoryId
 }
 
-function getItemId(e) {
+function getItemIdFromEvent(e) {
   return +e.currentTarget.closest('.item').dataset.itemId
 }
 
@@ -32,12 +32,12 @@ function onSubmitFormAddCategory(e) {
 }
 
 function onClickButtonEditCategory(e) {
-  handleOpenCategoryForEditing(getCategoryId(e))
+  handleOpenCategoryForEditing(getCategoryIdFromEvent(e))
 }
 
 function onSubmitFormEditCategory(e) {
   e.preventDefault()
-  handleEditCategory(getCategoryId(e), e.currentTarget.elements.title.value)
+  handleSaveCategory(getCategoryIdFromEvent(e), e.currentTarget.elements.title.value)
 }
 
 function onClickButtonCancelEditCategory() {
@@ -45,25 +45,25 @@ function onClickButtonCancelEditCategory() {
 }
 
 function onClickButtonDeleteCategory(e) {
-  handleRemoveCategory(getCategoryId(e))
+  handleRemoveCategory(getCategoryIdFromEvent(e))
 }
 
 //--- Items ---//
 
 function onSubmitFormAddItem(e) {
   e.preventDefault()
-  handleAddItem(getCategoryId(e), e.currentTarget.elements.title.value)
+  handleAddItem(getCategoryIdFromEvent(e), e.currentTarget.elements.title.value)
 }
 
 function onClickButtonEditItem(e) {
-  handleOpenItemForEditing(getCategoryId(e), getItemId(e))
+  handleOpenItemForEditing(getCategoryIdFromEvent(e), getItemIdFromEvent(e))
 }
 
 function onSubmitFormEditItem(e) {
   e.preventDefault()
-  handleEditItem(
-    getCategoryId(e),
-    getItemId(e),
+  handleSaveItem(
+    getCategoryIdFromEvent(e),
+    getItemIdFromEvent(e),
     e.currentTarget.elements.title.value,
   )
 }
@@ -73,18 +73,18 @@ function onClickButtonCancelEditItem() {
 }
 
 function onClickButtonDeleteItem(e) {
-  handleRemoveItem(getCategoryId(e), getItemId(e))
+  handleRemoveItem(getCategoryIdFromEvent(e), getItemIdFromEvent(e))
 }
 
 //--- Init ---//
 
-function initListeners() {
+function addListenersFormAddCategory() {
   document
     .querySelector('.add-form--category')
     .addEventListener('submit', onSubmitFormAddCategory)
 }
 
-function addCategoryListeners(elCategory) {
+function addListenersCategory(elCategory) {
   elCategory
     .querySelector('.category__action--edit')
     .addEventListener('click', onClickButtonEditCategory)
@@ -94,10 +94,10 @@ function addCategoryListeners(elCategory) {
   elCategory
     .querySelector('.add-form--item')
     .addEventListener('submit', onSubmitFormAddItem)
-  elCategory.querySelectorAll('.item').forEach(addItemListeners)
+  elCategory.querySelectorAll('.item').forEach(addListenersCategoryItem)
 }
 
-function addItemListeners(elItem) {
+function addListenersCategoryItem(elItem) {
   elItem
     .querySelector('.item__action--edit')
     .addEventListener('click', onClickButtonEditItem)
@@ -106,14 +106,14 @@ function addItemListeners(elItem) {
     .addEventListener('click', onClickButtonDeleteItem)
 }
 
-function addFormEditCategoryListeners(elForm) {
+function addListenersFormEditCategory(elForm) {
   elForm.addEventListener('submit', onSubmitFormEditCategory)
   elForm
     .querySelector('.add-form__button--cancel')
     .addEventListener('click', onClickButtonCancelEditCategory)
 }
 
-function addFormEditItemListeners(elForm) {
+function addListenersFormEditItem(elForm) {
   elForm.addEventListener('submit', onSubmitFormEditItem)
   elForm
     .querySelector('.add-form__button--cancel')
@@ -121,9 +121,9 @@ function addFormEditItemListeners(elForm) {
 }
 
 export {
-  initListeners,
+  addListenersFormAddCategory,
   onDOMContentLoaded,
-  addCategoryListeners,
-  addFormEditCategoryListeners,
-  addFormEditItemListeners,
+  addListenersCategory,
+  addListenersFormEditCategory,
+  addListenersFormEditItem,
 }
