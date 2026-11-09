@@ -4,6 +4,7 @@ import {
   generateFormEditItem,
 } from './generators.js'
 import {
+  removeListenersCategory,
   addListenersCategory,
   addListenersFormEditCategory,
   addListenersFormEditItem,
@@ -14,7 +15,9 @@ function getElCategoryById(categoryId) {
 }
 
 function getElItemById(categoryId, itemId) {
-  return getElCategoryById(categoryId).querySelector(`[data-item-id="${itemId}"]`)
+  return getElCategoryById(categoryId).querySelector(
+    `[data-item-id="${itemId}"]`,
+  )
 }
 
 function renderCategories(categories) {
@@ -22,6 +25,8 @@ function renderCategories(categories) {
   const elEmptyState = document.querySelector('.empty-state')
 
   elEmptyState.hidden = categories.length > 0
+  elCategories.querySelectorAll('.category').forEach(removeListenersCategory)
+  elCategories.innerHTML = ''
   elCategories.innerHTML = categories.map(generateCategory).join('')
   elCategories.querySelectorAll('.category').forEach(addListenersCategory)
 }
@@ -59,9 +64,17 @@ function renderFormEditCategory(category) {
   const elForm = elCategory.querySelector('.add-form--edit-category')
   const elInput = elForm.elements.title
 
-  addListenersFormEditCategory(elForm)
-  elInput.value = category.title
-  elInput.focus()
+  // addListenersFormEditCategory(elForm)
+
+  elForm.addEventListener('submit', onSubmitFormEditCategory)
+  elForm
+    .querySelector('.add-form__button--cancel')
+    .addEventListener('click', onClickButtonCancelEditCategory)
+
+  processValue(elInput)
+
+  // elInput.value = category.title
+  // elInput.focus()
 }
 
 function renderFormEditCategoryError(categoryId, text) {
