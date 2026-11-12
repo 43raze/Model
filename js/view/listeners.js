@@ -11,14 +11,11 @@ import {
   handleCancelEditItem,
   handleRemoveItem,
 } from '../controller.js'
-
-function getCategoryIdFromEvent(e) {
-  return +e.currentTarget.closest('.category').dataset.categoryId
-}
-
-function getItemIdFromEvent(e) {
-  return +e.currentTarget.closest('.item').dataset.itemId
-}
+import {
+  getCategoryIdFromEvent,
+  getItemIdFromEvent,
+  getInputTitleValueFromEvent,
+} from './utils.js'
 
 function onDOMContentLoaded() {
   handleContentLoaded()
@@ -28,20 +25,20 @@ function onDOMContentLoaded() {
 
 function onSubmitFormAddCategory(e) {
   e.preventDefault()
-  handleAddCategory(e.currentTarget.elements.title.value)
+  handleAddCategory(getInputTitleValueFromEvent(e))
 }
 
 function onClickButtonEditCategory(e) {
-  console.log('onClickButtonEditCategory')
+  // console.log('onClickButtonEditCategory')
   handleOpenCategoryForEditing(getCategoryIdFromEvent(e))
 }
 
 function onSubmitFormEditCategory(e) {
-  console.log('->>> onSubmitFormEditCategory', Date.now())
+  // console.log('->>> onSubmitFormEditCategory', Date.now())
   e.preventDefault()
   handleSaveCategory(
     getCategoryIdFromEvent(e),
-    e.currentTarget.elements.title.value,
+    getInputTitleValueFromEvent(e),
   )
 }
 
@@ -56,9 +53,9 @@ function onClickButtonDeleteCategory(e) {
 //--- Items ---//
 
 function onSubmitFormAddItem(e) {
-  console.log('FOO', Date.now())
+  // console.log('FOO', Date.now())
   e.preventDefault()
-  handleAddItem(getCategoryIdFromEvent(e), e.currentTarget.elements.title.value)
+  handleAddItem(getCategoryIdFromEvent(e), getInputTitleValueFromEvent(e))
 }
 
 function onClickButtonEditItem(e) {
@@ -70,7 +67,7 @@ function onSubmitFormEditItem(e) {
   handleSaveItem(
     getCategoryIdFromEvent(e),
     getItemIdFromEvent(e),
-    e.currentTarget.elements.title.value,
+    getInputTitleValueFromEvent(e),
   )
 }
 
@@ -85,28 +82,17 @@ function onClickButtonDeleteItem(e) {
 //--- Init ---//
 
 // renderFormAddCategoryListener
+// Форма добавления категории: submit (Добавить категорию)
 function addListenersFormAddCategory() {
   document
     .querySelector('.add-form--category')
     .addEventListener('submit', onSubmitFormAddCategory)
 }
 
-function removeListenersCategory(elCategory) {
-  console.log('removeListenersCategory ??')
-  elCategory
-    .querySelector('.category__action--edit')
-    .removeEventListener('click', onClickButtonEditCategory)
-  elCategory
-    .querySelector('.category__action--delete')
-    .removeEventListener('click', onClickButtonDeleteCategory)
-  elCategory
-    .querySelector('.add-form--item')
-    .removeEventListener('submit', onSubmitFormAddItem)
-  elCategory.querySelectorAll('.item').forEach(addListenersCategoryItem)
-}
-
+// Категория: click (Изменить, Удалить) + submit формы товара (Добавить)
+// + листенеры всех её товаров
 function addListenersCategory(elCategory) {
-  console.log('addListenersCategory ??', Date.now())
+  // console.log('addListenersCategory ??', Date.now())
   elCategory
     .querySelector('.category__action--edit')
     .addEventListener('click', onClickButtonEditCategory)
@@ -119,6 +105,7 @@ function addListenersCategory(elCategory) {
   elCategory.querySelectorAll('.item').forEach(addListenersCategoryItem)
 }
 
+// Товар: click (Изменить, X)
 function addListenersCategoryItem(elItem) {
   // console.log('addListenersCategoryItem ??')
   elItem
@@ -129,6 +116,7 @@ function addListenersCategoryItem(elItem) {
     .addEventListener('click', onClickButtonDeleteItem)
 }
 
+// Форма редактирования категории: submit (Сохранить) + click (Отмена)
 function addListenersFormEditCategory(elForm) {
   // console.log('-> addListenersFormEditCategory', Date.now())
   elForm.addEventListener('submit', onSubmitFormEditCategory)
@@ -137,6 +125,7 @@ function addListenersFormEditCategory(elForm) {
     .addEventListener('click', onClickButtonCancelEditCategory)
 }
 
+// Форма редактирования товара: submit (Сохранить) + click (Отмена)
 function addListenersFormEditItem(elForm) {
   elForm.addEventListener('submit', onSubmitFormEditItem)
   elForm
@@ -144,15 +133,9 @@ function addListenersFormEditItem(elForm) {
     .addEventListener('click', onClickButtonCancelEditItem)
 }
 
-function processValue(elInput) {
-  elInput.value = category.title
-  elInput.focus()
-}
-
 export {
-  addListenersFormAddCategory,
   onDOMContentLoaded,
-  removeListenersCategory,
+  addListenersFormAddCategory,
   addListenersCategory,
   addListenersFormEditCategory,
   addListenersFormEditItem,

@@ -18,4 +18,4 @@ function getValidTitle(title) {
   return capitalize(trimmed)
 }
 
-export { ERROR_TITLE_LENGTH, getValidTitle, isValidStringLength, capitalize }
+export { ERROR_TITLE_LENGTH, isValidStringLength, capitalize, getValidTitle }

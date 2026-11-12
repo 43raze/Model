@@ -1,11 +1,11 @@
 import {
   getAllCategories,
-  addCategory,
   getCategoryById,
+  addCategory,
   editCategoryTitleById,
   removeCategoryById,
-  addItemToCategory,
   getItemByIdFromCategoryId,
+  addItemToCategory,
   editItemTitleByIdFromCategoryId,
   removeItemByIdFromCategoryId,
 } from './model.js'
@@ -20,7 +20,7 @@ import {
   renderFormEditItem,
   renderFormEditItemError,
 } from './view/renders.js'
-import { addListenersFormAddCategory, onDOMContentLoaded } from './view/listeners.js'
+import { onDOMContentLoaded, addListenersFormAddCategory } from './view/listeners.js'
 
 function handleContentLoaded() {
   addListenersFormAddCategory()
