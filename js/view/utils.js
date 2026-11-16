@@ -34,23 +34,6 @@ function getElFormEditItemById(categoryId, itemId) {
   return getElItemById(categoryId, itemId).querySelector('.add-form--edit-item')
 }
 
-//--- Данные из события ---//
-
-// Возвращает id категории, в которой нажали кнопку или отправили форму
-function getCategoryIdFromEvent(e) {
-  return +e.currentTarget.closest('.category').dataset.categoryId
-}
-
-// Возвращает id товара, в котором нажали кнопку или отправили форму
-function getItemIdFromEvent(e) {
-  return +e.currentTarget.closest('.item').dataset.itemId
-}
-
-// Возвращает текст, который ввели в поле title отправленной формы
-function getInputTitleValueFromEvent(e) {
-  return e.currentTarget.elements.title.value
-}
-
 export {
   getElCategoryById,
   getElItemById,
@@ -58,7 +41,4 @@ export {
   getElFormAddItemByCategoryId,
   getElFormEditCategoryById,
   getElFormEditItemById,
-  getCategoryIdFromEvent,
-  getItemIdFromEvent,
-  getInputTitleValueFromEvent,
 }

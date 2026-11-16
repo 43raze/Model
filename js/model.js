@@ -66,6 +66,8 @@ function addCategory(title) {
   }
 
   categories.push(newCategory)
+  console.log('addCategory → новая:', newCategory)
+  console.log('addCategory → categories:', structuredClone(categories))
 }
 
 function editCategoryTitleById(categoryId, newTitle) {
@@ -110,6 +112,9 @@ function addItemToCategory(categoryId, title) {
   }
 
   category.items.push(newItem)
+  console.log('addItemToCategory → новый:', newItem)
+  console.log('addItemToCategory → category:', structuredClone(category))
+  console.log('addItemToCategory → categories:', structuredClone(categories))
 }
 
 function editItemTitleByIdFromCategoryId(categoryId, itemId, newTitle) {

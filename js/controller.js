@@ -20,10 +20,10 @@ import {
   renderFormEditItem,
   renderFormEditItemError,
 } from './view/renders.js'
-import { onDOMContentLoaded, addListenersFormAddCategory } from './view/listeners.js'
+import { onDOMContentLoaded, renderFormAddCategoryListener } from './view/listeners.js'
 
 function handleContentLoaded() {
-  addListenersFormAddCategory()
+  renderFormAddCategoryListener()
   renderCategories(getAllCategories())
 }
 
