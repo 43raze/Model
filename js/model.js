@@ -1,5 +1,6 @@
 const generateRandomId = () => Math.trunc(Math.random() * 0xffffffff)
 
+// Единственный источник данных модели
 const categories = [
   {
     id: 1,
@@ -37,18 +38,16 @@ const categories = [
   },
 ]
 
-// Исходные данные не меняются — модель работает с копией
-let categoriesCopy = structuredClone(categories)
-
 //--- Categories ---//
 
-// Возвращает рабочую категорию из categoriesCopy — только для изменений внутри модели
+// Возвращает оригинал категории — только для изменений внутри модели
 function findCategoryById(categoryId) {
-  return categoriesCopy.find(category => category.id === categoryId)
+  return categories.find(category => category.id === categoryId)
 }
 
+// Возвращает копию всех категорий — для отдачи наружу
 function getAllCategories() {
-  return structuredClone(categoriesCopy)
+  return structuredClone(categories)
 }
 
 // Возвращает копию категории — для отдачи наружу
@@ -66,7 +65,7 @@ function addCategory(title) {
     items: [],
   }
 
-  categoriesCopy.push(newCategory)
+  categories.push(newCategory)
 }
 
 function editCategoryTitleById(categoryId, newTitle) {
@@ -77,12 +76,15 @@ function editCategoryTitleById(categoryId, newTitle) {
 }
 
 function removeCategoryById(categoryId) {
-  categoriesCopy = categoriesCopy.filter(category => category.id !== categoryId)
+  const index = categories.findIndex(category => category.id === categoryId)
+  if (index === -1) return
+
+  categories.splice(index, 1)
 }
 
 //--- Items ---//
 
-// Возвращает рабочий товар из categoriesCopy — только для изменений внутри модели
+// Возвращает оригинал товара — только для изменений внутри модели
 function findItemByIdFromCategoryId(categoryId, itemId) {
   const category = findCategoryById(categoryId)
   if (!category) return null
