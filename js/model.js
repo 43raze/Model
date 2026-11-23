@@ -1,3 +1,5 @@
+import { ERROR_TITLE_LENGTH } from './validation.js'
+
 const generateRandomId = () => Math.trunc(Math.random() * 0xffffffff)
 
 // Единственный источник данных модели
@@ -5,6 +7,8 @@ const categories = [
   {
     id: 1,
     title: 'Смартфоны',
+    isEditing: false,
+    error: '',
     items: [
       // >>> item <<<
       { id: 11, title: 'iPhone 15' },
@@ -15,6 +19,8 @@ const categories = [
   {
     id: 2,
     title: 'Ноутбуки',
+    isEditing: false,
+    error: '',
     items: [
       { id: 21, title: 'Lenovo idonknow' },
       { id: 22, title: 'Macbook Air' },
@@ -23,6 +29,8 @@ const categories = [
   {
     id: 3,
     title: 'Пылесосы',
+    isEditing: false,
+    error: '',
     items: [
       { id: 31, title: 'Dream' },
       { id: 32, title: 'Ecovox T50' },
@@ -31,6 +39,8 @@ const categories = [
   {
     id: 4,
     title: 'Цветы',
+    isEditing: false,
+    error: '',
     items: [
       { id: 41, title: 'Белые розы' },
       { id: 42, title: 'Желтые тюльпаны' },
@@ -62,12 +72,38 @@ function addCategory(title) {
   const newCategory = {
     id: generateRandomId(),
     title,
+    isEditing: false,
+    error: '',
     items: [],
   }
 
   categories.push(newCategory)
   console.log('addCategory → новая:', newCategory)
   console.log('addCategory → categories:', structuredClone(categories))
+}
+
+function openEditingCategoryTitleById(categoryId) {
+  const category = getCategoryById(categoryId)
+  if (!category) return
+  category.isEditing = true
+}
+
+function saveEditingCategoryTitleById(categoryId, categoryTitle) {
+  const category = getCategoryById(categoryId)
+  const validTitle = getValidTitle(categoryTitle)
+  if (!validTitle) {
+    category.error = ERROR_TITLE_LENGTH
+    category.isEditing = false
+  } else {
+    category.error = ''
+    category.isEditing = true
+  }
+}
+
+function cancelEditingCategoryTitleById(categoryId) {
+  const category = getCategoryById(categoryId)
+  if (!category) return
+  category.isEditing = false
 }
 
 function editCategoryTitleById(categoryId, newTitle) {

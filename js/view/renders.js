@@ -35,13 +35,14 @@ function clearFormError(elForm) {
 }
 
 function resetFormAddCategory() {
-  const elForm = getElFormAddCategory()
-  elForm.reset()
-  clearFormError(elForm)
+  // const elForm = document.querySelector('.add-form--category')
+  // elForm.reset()
+  elFormAddCategory.reset()
+  // clearFormError(elForm)
 }
 
 function renderFormAddCategoryError(text) {
-  const elForm = getElFormAddCategory()
+  const elForm = document.querySelector('.add-form--category')
   renderFormError(elForm, text)
 }
 

@@ -1,20 +1,46 @@
 function generateCategory(category) {
-  return `
-    <section class="category" data-category-id="${category.id}">
-      <div class="category__header">
-        <h2 class="category__title">${category.title}</h2>
-        <div class="category__actions">
-          <button type="button" class="category__action category__action--edit">Изменить</button>
-          <button type="button" class="category__action category__action--delete category__action--danger">Удалить</button>
-        </div>
-      </div>
-      <ul class="category__items">
-        ${category.items.map(generateItem).join('')}
-      </ul>
-      ${generateFormAddItem()}
-    </section>
+  const elSection = document.createElement('section')
+  elSection.classList.add('category')
+  elSection.dataset.categoryId = 'category.id'
+  elSection.innerHTML = `
+  <div class="category__header">
+    <h2 class="category__title">${category.title}</h2>
+    <div class="category__actions">
+      <button type="button" class="category__action category__action--edit">Изменить</button>
+      <button type="button" class="category__action category__action--delete category__action--danger">Удалить</button>
+    </div>
+  </div>
+  <ul class="category__items">
+    ${category.items.map(generateItem).join('')}
+  </ul>
+  ${generateFormAddItem()}
   `
+  elSection
+    .querySelector('.category__action--edit')
+    .addEventListener('click', onClickButtonEditCategory)
+  elSection
+    .querySelector('.category__action--delete')
+    .addEventListener('click', onClickButtonDeleteCategory)
+  return elSection
 }
+
+// function generateCategory(category) {
+//   return `
+//     <section class="category" data-category-id="${category.id}">
+//       <div class="category__header">
+//         <h2 class="category__title">${category.title}</h2>
+//         <div class="category__actions">
+//           <button type="button" class="category__action category__action--edit">Изменить</button>
+//           <button type="button" class="category__action category__action--delete category__action--danger">Удалить</button>
+//         </div>
+//       </div>
+//       <ul class="category__items">
+//         ${category.items.map(generateItem).join('')}
+//       </ul>
+//       ${generateFormAddItem()}
+//     </section>
+//   `
+// }
 
 function generateItem(item) {
   return `
@@ -28,7 +54,21 @@ function generateItem(item) {
   `
 }
 
+// function generateFormAddItem() {
+//   return `
+//     <form class="add-form add-form--item">
+//       <input type="text" name="title" class="add-form__input" placeholder="Название товара" required />
+//       <button type="submit" class="add-form__button add-form__button--secondary">Добавить</button>
+//       <p class="form-error"></p>
+//     </form>
+//   `
+// }
+
 function generateFormAddItem() {
+  const elForm = document.createElement('form')
+  elForm.classList.add('add-form')
+  elForm.classList.add('add-form--item')
+  elForm.innerHTML = 
   return `
     <form class="add-form add-form--item">
       <input type="text" name="title" class="add-form__input" placeholder="Название товара" required />
