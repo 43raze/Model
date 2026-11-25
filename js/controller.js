@@ -2,14 +2,17 @@ import {
   getAllCategories,
   getCategoryById,
   addCategory,
-  editCategoryTitleById,
-  removeCategoryById,
+  openEditingCategoryTitleById,
+  saveEditingCategoryTitleById,
+  cancelEditingCategoryTitleById,
+  deleteCategoryById,
   getItemByIdFromCategoryId,
   addItemToCategory,
-  editItemTitleByIdFromCategoryId,
-  removeItemByIdFromCategoryId,
+  openEditingItemTitleByIdFromCategoryId,
+  saveEditingItemTitleByIdFromCategoryId,
+  cancelEditingItemTitleByIdFromCategoryId,
+  deleteItemByIdFromCategoryId,
 } from './model.js'
-import { ERROR_TITLE_LENGTH, getValidTitle } from './validation.js'
 import {
   renderCategories,
   resetFormAddCategory,
@@ -20,33 +23,31 @@ import {
   renderFormEditItem,
   renderFormEditItemError,
 } from './view/renders.js'
-import { onDOMContentLoaded, renderFormAddCategoryListener } from './view/listeners.js'
+import { onDOMContentLoaded, addFormAddCategoryListener } from './view/listeners.js'
 
 function handleContentLoaded() {
-  renderFormAddCategoryListener()
+  addFormAddCategoryListener()
   renderCategories(getAllCategories())
 }
 
 function handleAddCategory(title) {
-  const validTitle = getValidTitle(title)
-  if (!validTitle) return renderFormAddCategoryError(ERROR_TITLE_LENGTH)
-
-  addCategory(validTitle)
+  const error = addCategory(title)
+  if (error) return renderFormAddCategoryError(error)
 
   resetFormAddCategory()
   renderCategories(getAllCategories())
 }
 
 function handleAddItem(categoryId, title) {
-  const validTitle = getValidTitle(title)
-  if (!validTitle) return renderFormAddItemError(categoryId, ERROR_TITLE_LENGTH)
-
-  addItemToCategory(categoryId, validTitle)
+  const error = addItemToCategory(categoryId, title)
+  if (error) return renderFormAddItemError(categoryId, error)
 
   renderCategories(getAllCategories())
 }
 
 function handleOpenCategoryForEditing(categoryId) {
+  openEditingCategoryTitleById(categoryId)
+
   const category = getCategoryById(categoryId)
   if (!category) return
 
@@ -54,24 +55,28 @@ function handleOpenCategoryForEditing(categoryId) {
 }
 
 function handleSaveCategory(categoryId, title) {
-  const validTitle = getValidTitle(title)
-  if (!validTitle) return renderFormEditCategoryError(categoryId, ERROR_TITLE_LENGTH)
+  saveEditingCategoryTitleById(categoryId, title)
 
-  editCategoryTitleById(categoryId, validTitle)
+  const category = getCategoryById(categoryId)
+  if (!category) return
+  if (category.error) return renderFormEditCategoryError(categoryId, category.error)
 
   renderCategories(getAllCategories())
 }
 
-function handleCancelEditCategory() {
+function handleCancelEditCategory(categoryId) {
+  cancelEditingCategoryTitleById(categoryId)
   renderCategories(getAllCategories())
 }
 
-function handleRemoveCategory(categoryId) {
-  removeCategoryById(categoryId)
+function handleDeleteCategory(categoryId) {
+  deleteCategoryById(categoryId)
   renderCategories(getAllCategories())
 }
 
 function handleOpenItemForEditing(categoryId, itemId) {
+  openEditingItemTitleByIdFromCategoryId(categoryId, itemId)
+
   const item = getItemByIdFromCategoryId(categoryId, itemId)
   if (!item) return
 
@@ -79,21 +84,23 @@ function handleOpenItemForEditing(categoryId, itemId) {
 }
 
 function handleSaveItem(categoryId, itemId, title) {
-  const validTitle = getValidTitle(title)
-  if (!validTitle)
-    return renderFormEditItemError(categoryId, itemId, ERROR_TITLE_LENGTH)
+  saveEditingItemTitleByIdFromCategoryId(categoryId, itemId, title)
 
-  editItemTitleByIdFromCategoryId(categoryId, itemId, validTitle)
+  const item = getItemByIdFromCategoryId(categoryId, itemId)
+  if (!item) return
+  if (item.error)
+    return renderFormEditItemError(categoryId, itemId, item.error)
 
   renderCategories(getAllCategories())
 }
 
-function handleCancelEditItem() {
+function handleCancelEditItem(categoryId, itemId) {
+  cancelEditingItemTitleByIdFromCategoryId(categoryId, itemId)
   renderCategories(getAllCategories())
 }
 
-function handleRemoveItem(categoryId, itemId) {
-  removeItemByIdFromCategoryId(categoryId, itemId)
+function handleDeleteItem(categoryId, itemId) {
+  deleteItemByIdFromCategoryId(categoryId, itemId)
   renderCategories(getAllCategories())
 }
 
@@ -104,11 +111,11 @@ export {
   handleOpenCategoryForEditing,
   handleSaveCategory,
   handleCancelEditCategory,
-  handleRemoveCategory,
+  handleDeleteCategory,
   handleOpenItemForEditing,
   handleSaveItem,
   handleCancelEditItem,
-  handleRemoveItem,
+  handleDeleteItem,
 }
 
 document.addEventListener('DOMContentLoaded', onDOMContentLoaded)

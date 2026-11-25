@@ -4,9 +4,9 @@ import {
   generateFormEditItem,
 } from './generators.js'
 import {
-  renderCategoryListener,
-  renderFormEditCategoryListener,
-  renderFormEditItemListener,
+  addCategoryListeners,
+  addFormEditCategoryListeners,
+  addFormEditItemListeners,
 } from './listeners.js'
 import {
   getElCategoryById,
@@ -23,7 +23,7 @@ function renderCategories(categories) {
 
   elEmptyState.hidden = categories.length > 0
   elCategories.innerHTML = categories.map(generateCategory).join('')
-  elCategories.querySelectorAll('.category').forEach(renderCategoryListener)
+  elCategories.querySelectorAll('.category').forEach(addCategoryListeners)
 }
 
 function renderFormError(elForm, text) {
@@ -60,7 +60,7 @@ function renderFormEditCategory(category) {
   const elForm = getElFormEditCategoryById(category.id)
   const elInput = elForm.elements.title
 
-  renderFormEditCategoryListener(elForm)
+  addFormEditCategoryListeners(elForm)
 
   elInput.value = category.title
   elInput.focus()
@@ -80,7 +80,7 @@ function renderFormEditItem(categoryId, item) {
   const elForm = getElFormEditItemById(categoryId, item.id)
   const elInput = elForm.elements.title
 
-  renderFormEditItemListener(elForm)
+  addFormEditItemListeners(elForm)
   elInput.value = item.title
   elInput.focus()
 }
