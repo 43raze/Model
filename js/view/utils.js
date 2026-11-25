@@ -25,7 +25,7 @@ function getElFormAddItemByCategoryId(categoryId) {
 }
 
 // Находит форму редактирования категории
-function getElFormEditCategoryById(categoryId) {
+function getElFormEditCategoryByCategoryId(categoryId) {
   return getElCategoryById(categoryId).querySelector('.add-form--edit-category')
 }
 
@@ -39,6 +39,6 @@ export {
   getElItemById,
   getElFormAddCategory,
   getElFormAddItemByCategoryId,
-  getElFormEditCategoryById,
+  getElFormEditCategoryByCategoryId,
   getElFormEditItemById,
 }

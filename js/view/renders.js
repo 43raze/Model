@@ -4,16 +4,11 @@ import {
   generateFormEditItem,
 } from './generators.js'
 import {
-  addCategoryListeners,
-  addFormEditCategoryListeners,
-  addFormEditItemListeners,
-} from './listeners.js'
-import {
   getElCategoryById,
   getElItemById,
   getElFormAddCategory,
   getElFormAddItemByCategoryId,
-  getElFormEditCategoryById,
+  getElFormEditCategoryByCategoryId,
   getElFormEditItemById,
 } from './utils.js'
 
@@ -22,8 +17,7 @@ function renderCategories(categories) {
   const elEmptyState = document.querySelector('.empty-state')
 
   elEmptyState.hidden = categories.length > 0
-  elCategories.innerHTML = categories.map(generateCategory).join('')
-  elCategories.querySelectorAll('.category').forEach(addCategoryListeners)
+  elCategories.replaceChildren(...categories.map(generateCategory))
 }
 
 function renderFormError(elForm, text) {
@@ -35,10 +29,9 @@ function clearFormError(elForm) {
 }
 
 function resetFormAddCategory() {
-  // const elForm = document.querySelector('.add-form--category')
-  // elForm.reset()
-  elFormAddCategory.reset()
-  // clearFormError(elForm)
+  const elForm = getElFormAddCategory()
+  elForm.reset()
+  clearFormError(elForm)
 }
 
 function renderFormAddCategoryError(text) {
@@ -55,19 +48,17 @@ function renderFormEditCategory(category) {
   const elCategory = getElCategoryById(category.id)
   const elHeader = elCategory.querySelector('.category__header')
 
-  elHeader.outerHTML = generateFormEditCategory()
-
-  const elForm = getElFormEditCategoryById(category.id)
+  const elForm = generateFormEditCategory()
   const elInput = elForm.elements.title
 
-  addFormEditCategoryListeners(elForm)
+  elHeader.replaceWith(elForm)
 
   elInput.value = category.title
   elInput.focus()
 }
 
 function renderFormEditCategoryError(categoryId, text) {
-  const elForm = getElFormEditCategoryById(categoryId)
+  const elForm = getElFormEditCategoryByCategoryId(categoryId)
 
   renderFormError(elForm, text)
 }
@@ -75,12 +66,11 @@ function renderFormEditCategoryError(categoryId, text) {
 function renderFormEditItem(categoryId, item) {
   const elItem = getElItemById(categoryId, item.id)
 
-  elItem.innerHTML = generateFormEditItem()
-
-  const elForm = getElFormEditItemById(categoryId, item.id)
+  const elForm = generateFormEditItem()
   const elInput = elForm.elements.title
 
-  addFormEditItemListeners(elForm)
+  elItem.replaceChildren(elForm)
+
   elInput.value = item.title
   elInput.focus()
 }

@@ -2,12 +2,12 @@ import {
   handleContentLoaded,
   handleAddCategory,
   handleAddItem,
-  handleOpenCategoryForEditing,
-  handleSaveCategory,
+  handleOpenEditCategory,
+  handleSaveEditCategory,
   handleCancelEditCategory,
   handleDeleteCategory,
-  handleOpenItemForEditing,
-  handleSaveItem,
+  handleOpenEditItem,
+  handleSaveEditItem,
   handleCancelEditItem,
   handleDeleteItem,
 } from '../controller.js'
@@ -43,13 +43,13 @@ function onSubmitFormAddCategory(e) {
 
 function onClickButtonEditCategory(e) {
   // console.log('onClickButtonEditCategory')
-  handleOpenCategoryForEditing(getCategoryIdFromEvent(e))
+  handleOpenEditCategory(getCategoryIdFromEvent(e))
 }
 
 function onSubmitFormEditCategory(e) {
   // console.log('->>> onSubmitFormEditCategory', Date.now())
   e.preventDefault()
-  handleSaveCategory(
+  handleSaveEditCategory(
     getCategoryIdFromEvent(e),
     getInputTitleValueFromEvent(e),
   )
@@ -72,12 +72,12 @@ function onSubmitFormAddItem(e) {
 }
 
 function onClickButtonEditItem(e) {
-  handleOpenItemForEditing(getCategoryIdFromEvent(e), getItemIdFromEvent(e))
+  handleOpenEditItem(getCategoryIdFromEvent(e), getItemIdFromEvent(e))
 }
 
 function onSubmitFormEditItem(e) {
   e.preventDefault()
-  handleSaveItem(
+  handleSaveEditItem(
     getCategoryIdFromEvent(e),
     getItemIdFromEvent(e),
     getInputTitleValueFromEvent(e),
@@ -94,59 +94,22 @@ function onClickButtonDeleteItem(e) {
 
 //--- Init ---//
 
-// Форма добавления категории: submit (Добавить категорию)
+// Форма добавления категории есть в HTML сразу — вешаем листенер при загрузке.
+// Остальные листенеры вешают генераторы при создании элементов.
 function addFormAddCategoryListener() {
   getElFormAddCategory().addEventListener('submit', onSubmitFormAddCategory)
-}
-
-// Категория: click (Изменить, Удалить) + submit формы товара (Добавить)
-// + листенеры всех её товаров
-function addCategoryListeners(elCategory) {
-  // console.log('addCategoryListeners ??', Date.now())
-  elCategory
-    .querySelector('.category__action--edit')
-    .addEventListener('click', onClickButtonEditCategory)
-  elCategory
-    .querySelector('.category__action--delete')
-    .addEventListener('click', onClickButtonDeleteCategory)
-  elCategory
-    .querySelector('.add-form--item')
-    .addEventListener('submit', onSubmitFormAddItem)
-  elCategory.querySelectorAll('.item').forEach(addCategoryItemListeners)
-}
-
-// Товар: click по кнопкам «Изменить» (редактировать) и «X» (удалить)
-function addCategoryItemListeners(elItem) {
-  // console.log('addCategoryItemListeners ??')
-  elItem
-    .querySelector('.item__action--edit')
-    .addEventListener('click', onClickButtonEditItem)
-  elItem
-    .querySelector('.item__action--delete')
-    .addEventListener('click', onClickButtonDeleteItem)
-}
-
-// Форма редактирования категории: submit (Сохранить) + click (Отмена)
-function addFormEditCategoryListeners(elForm) {
-  // console.log('-> addFormEditCategoryListeners', Date.now())
-  elForm.addEventListener('submit', onSubmitFormEditCategory)
-  elForm
-    .querySelector('.add-form__button--cancel')
-    .addEventListener('click', onClickButtonCancelEditCategory)
-}
-
-// Форма редактирования товара: submit (Сохранить) + click (Отмена)
-function addFormEditItemListeners(elForm) {
-  elForm.addEventListener('submit', onSubmitFormEditItem)
-  elForm
-    .querySelector('.add-form__button--cancel')
-    .addEventListener('click', onClickButtonCancelEditItem)
 }
 
 export {
   onDOMContentLoaded,
   addFormAddCategoryListener,
-  addCategoryListeners,
-  addFormEditCategoryListeners,
-  addFormEditItemListeners,
+  onClickButtonEditCategory,
+  onSubmitFormEditCategory,
+  onClickButtonCancelEditCategory,
+  onClickButtonDeleteCategory,
+  onSubmitFormAddItem,
+  onClickButtonEditItem,
+  onSubmitFormEditItem,
+  onClickButtonCancelEditItem,
+  onClickButtonDeleteItem,
 }

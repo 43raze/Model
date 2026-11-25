@@ -3,6 +3,7 @@
 const TITLE_MIN_LENGTH = 3
 const TITLE_MAX_LENGTH = 20
 const ERROR_TITLE_LENGTH = `Название должно быть от ${TITLE_MIN_LENGTH} до ${TITLE_MAX_LENGTH} символов`
+const ERROR_CATEGORY_NOT_FOUND = 'Категория не найдена'
 
 const generateRandomId = () => Math.trunc(Math.random() * 0xffffffff)
 
@@ -142,7 +143,7 @@ function deleteCategoryById(categoryId) {
 //--- Items ---//
 
 // Возвращает оригинал товара — только для изменений внутри модели
-function findItemByIdFromCategoryId(categoryId, itemId) {
+function findItemById(categoryId, itemId) {
   const category = findCategoryById(categoryId)
   if (!category) return null
 
@@ -150,8 +151,8 @@ function findItemByIdFromCategoryId(categoryId, itemId) {
 }
 
 // Возвращает копию товара — для отдачи наружу
-function getItemByIdFromCategoryId(categoryId, itemId) {
-  const item = findItemByIdFromCategoryId(categoryId, itemId)
+function getItemById(categoryId, itemId) {
+  const item = findItemById(categoryId, itemId)
   if (!item) return null
 
   return structuredClone(item)
@@ -160,7 +161,7 @@ function getItemByIdFromCategoryId(categoryId, itemId) {
 // Добавляет товар. Возвращает текст ошибки или '', если добавлено
 function addItemToCategory(categoryId, title) {
   const category = findCategoryById(categoryId)
-  if (!category) return ''
+  if (!category) return ERROR_CATEGORY_NOT_FOUND
 
   const validTitle = getValidTitle(title)
   if (!validTitle) return ERROR_TITLE_LENGTH
@@ -180,8 +181,8 @@ function addItemToCategory(categoryId, title) {
 }
 
 // Включает режим редактирования товара
-function openEditingItemTitleByIdFromCategoryId(categoryId, itemId) {
-  const item = findItemByIdFromCategoryId(categoryId, itemId)
+function openEditingItemTitleById(categoryId, itemId) {
+  const item = findItemById(categoryId, itemId)
   if (!item) return
 
   item.isEditing = true
@@ -189,8 +190,8 @@ function openEditingItemTitleByIdFromCategoryId(categoryId, itemId) {
 }
 
 // Сохраняет название; при ошибке форма остаётся открытой, текст ошибки в item.error
-function saveEditingItemTitleByIdFromCategoryId(categoryId, itemId, itemTitle) {
-  const item = findItemByIdFromCategoryId(categoryId, itemId)
+function saveEditingItemTitleById(categoryId, itemId, itemTitle) {
+  const item = findItemById(categoryId, itemId)
   if (!item) return
 
   const validTitle = getValidTitle(itemTitle)
@@ -198,29 +199,29 @@ function saveEditingItemTitleByIdFromCategoryId(categoryId, itemId, itemTitle) {
     item.error = ERROR_TITLE_LENGTH
     item.isEditing = true
   } else {
-    editItemTitleByIdFromCategoryId(categoryId, itemId, validTitle)
+    editItemTitleById(categoryId, itemId, validTitle)
     item.error = ''
     item.isEditing = false
   }
 }
 
 // Выключает режим редактирования товара без сохранения
-function cancelEditingItemTitleByIdFromCategoryId(categoryId, itemId) {
-  const item = findItemByIdFromCategoryId(categoryId, itemId)
+function cancelEditingItemTitleById(categoryId, itemId) {
+  const item = findItemById(categoryId, itemId)
   if (!item) return
 
   item.isEditing = false
   item.error = ''
 }
 
-function editItemTitleByIdFromCategoryId(categoryId, itemId, newTitle) {
-  const item = findItemByIdFromCategoryId(categoryId, itemId)
+function editItemTitleById(categoryId, itemId, newTitle) {
+  const item = findItemById(categoryId, itemId)
   if (!item) return null
 
   item.title = newTitle
 }
 
-function deleteItemByIdFromCategoryId(categoryId, itemId) {
+function deleteItemById(categoryId, itemId) {
   const category = findCategoryById(categoryId)
   if (!category) return
 
@@ -253,13 +254,11 @@ export {
   openEditingCategoryTitleById,
   saveEditingCategoryTitleById,
   cancelEditingCategoryTitleById,
-  editCategoryTitleById,
   deleteCategoryById,
-  getItemByIdFromCategoryId,
+  getItemById,
   addItemToCategory,
-  openEditingItemTitleByIdFromCategoryId,
-  saveEditingItemTitleByIdFromCategoryId,
-  cancelEditingItemTitleByIdFromCategoryId,
-  editItemTitleByIdFromCategoryId,
-  deleteItemByIdFromCategoryId,
+  openEditingItemTitleById,
+  saveEditingItemTitleById,
+  cancelEditingItemTitleById,
+  deleteItemById,
 }

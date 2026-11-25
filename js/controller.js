@@ -6,12 +6,12 @@ import {
   saveEditingCategoryTitleById,
   cancelEditingCategoryTitleById,
   deleteCategoryById,
-  getItemByIdFromCategoryId,
+  getItemById,
   addItemToCategory,
-  openEditingItemTitleByIdFromCategoryId,
-  saveEditingItemTitleByIdFromCategoryId,
-  cancelEditingItemTitleByIdFromCategoryId,
-  deleteItemByIdFromCategoryId,
+  openEditingItemTitleById,
+  saveEditingItemTitleById,
+  cancelEditingItemTitleById,
+  deleteItemById,
 } from './model.js'
 import {
   renderCategories,
@@ -45,7 +45,7 @@ function handleAddItem(categoryId, title) {
   renderCategories(getAllCategories())
 }
 
-function handleOpenCategoryForEditing(categoryId) {
+function handleOpenEditCategory(categoryId) {
   openEditingCategoryTitleById(categoryId)
 
   const category = getCategoryById(categoryId)
@@ -54,7 +54,7 @@ function handleOpenCategoryForEditing(categoryId) {
   renderFormEditCategory(category)
 }
 
-function handleSaveCategory(categoryId, title) {
+function handleSaveEditCategory(categoryId, title) {
   saveEditingCategoryTitleById(categoryId, title)
 
   const category = getCategoryById(categoryId)
@@ -74,19 +74,19 @@ function handleDeleteCategory(categoryId) {
   renderCategories(getAllCategories())
 }
 
-function handleOpenItemForEditing(categoryId, itemId) {
-  openEditingItemTitleByIdFromCategoryId(categoryId, itemId)
+function handleOpenEditItem(categoryId, itemId) {
+  openEditingItemTitleById(categoryId, itemId)
 
-  const item = getItemByIdFromCategoryId(categoryId, itemId)
+  const item = getItemById(categoryId, itemId)
   if (!item) return
 
   renderFormEditItem(categoryId, item)
 }
 
-function handleSaveItem(categoryId, itemId, title) {
-  saveEditingItemTitleByIdFromCategoryId(categoryId, itemId, title)
+function handleSaveEditItem(categoryId, itemId, title) {
+  saveEditingItemTitleById(categoryId, itemId, title)
 
-  const item = getItemByIdFromCategoryId(categoryId, itemId)
+  const item = getItemById(categoryId, itemId)
   if (!item) return
   if (item.error)
     return renderFormEditItemError(categoryId, itemId, item.error)
@@ -95,12 +95,12 @@ function handleSaveItem(categoryId, itemId, title) {
 }
 
 function handleCancelEditItem(categoryId, itemId) {
-  cancelEditingItemTitleByIdFromCategoryId(categoryId, itemId)
+  cancelEditingItemTitleById(categoryId, itemId)
   renderCategories(getAllCategories())
 }
 
 function handleDeleteItem(categoryId, itemId) {
-  deleteItemByIdFromCategoryId(categoryId, itemId)
+  deleteItemById(categoryId, itemId)
   renderCategories(getAllCategories())
 }
 
@@ -108,12 +108,12 @@ export {
   handleContentLoaded,
   handleAddCategory,
   handleAddItem,
-  handleOpenCategoryForEditing,
-  handleSaveCategory,
+  handleOpenEditCategory,
+  handleSaveEditCategory,
   handleCancelEditCategory,
   handleDeleteCategory,
-  handleOpenItemForEditing,
-  handleSaveItem,
+  handleOpenEditItem,
+  handleSaveEditItem,
   handleCancelEditItem,
   handleDeleteItem,
 }
